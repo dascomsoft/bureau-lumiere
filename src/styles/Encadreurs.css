@@ -1,0 +1,7 @@
+.encadreur img {
+  width: 150px;
+  height: 150px;
+  -o-object-fit: fill;
+     object-fit: fill;
+  border-radius: 100px;
+}/*# sourceMappingURL=Encadreurs.css.map */
