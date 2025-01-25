@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { EncadreurList } from '../components/EncadreurList';
 import { Tabs } from '@medusajs/ui';
 import '../styles/Encadreurs.css'
-import { useEffect } from 'react';
+import { useEffect , useState } from 'react';
 
 function Encadreurs() {
 
@@ -12,6 +12,23 @@ function Encadreurs() {
     window.scrollTo(0, 0);
 }, []);
   const allTeachers = Object.values(EncadreurList).flat();
+
+
+  const[inscription , setInscription] = useState(true)
+
+
+    const hideInscription = "hideInscription";
+    const showInscription = "showInscription";
+
+      const updateInscription = ()=>{
+        setInscription(!inscription)
+      }
+
+
+      const update = ()=>{
+        setInscription(true)
+      }
+
 
   return (
     <div className='encadreur pt-[10rem] bg-stone-200'>
@@ -44,7 +61,7 @@ function Encadreurs() {
                   <h3 className='font-extrabold text-xl'>{teacher.name}</h3>
                   <p>{teacher.description}</p>
                   <br />
-                  <Link to={`/profile/${teacher.id}`} className='px-10 py-2 rounded-full bg-stone-300 text-black'>Voir le profil</Link>
+                  <Link onClick={updateInscription}className='px-10 py-2 rounded-full bg-stone-300 text-black'>Voir le profil</Link>
                 </div>
               </div>
             ))}
@@ -59,13 +76,12 @@ function Encadreurs() {
                   <h3 className='font-extrabold text-xl'>{teacher.name}</h3>
                   <p>{teacher.description}</p>
                   <br />
-                  <Link to={`/profile/${teacher.id}`} className='px-10 py-2 rounded-full bg-stone-300 text-black'>Voir le profil</Link>
+                  <Link onClick={updateInscription} className='px-10 py-2 rounded-full bg-stone-300 text-black'>Voir le profil</Link>
                 </div>
               </div>
             ))}
 
           </Tabs.Content>
-
           <Tabs.Content value="anglais" className='grid  md:grid-cols-2 lg:grid-cols-3 gap-10'>
             {EncadreurList.anglais.map((teacher, index) => (
               <div key={index} className="teacher shadow-xl p-4">
@@ -74,7 +90,7 @@ function Encadreurs() {
                   <h3 className='font-extrabold text-xl'>{teacher.name}</h3>
                   <p>{teacher.description}</p>
                   <br />
-                  <Link to={`/profile/${teacher.id}`} className='px-10 py-2 rounded-full bg-stone-300 text-black'>Voir le profil</Link>
+                  <Link onClick={updateInscription} className='px-10 py-2 rounded-full bg-stone-300 text-black'>Voir le profil</Link>
                 </div>
               </div>
             ))}
@@ -87,7 +103,7 @@ function Encadreurs() {
                   <h3 className='font-extrabold text-xl'>{teacher.name}</h3>
                   <p>{teacher.description}</p>
                   <br />
-                  <Link to={`/profile/${teacher.id}`} className='px-10 py-2 rounded-full bg-stone-300 text-black'>Voir le profil</Link>
+                  <Link onClick={updateInscription} className='px-10 py-2 rounded-full bg-stone-300 text-black'>Voir le profil</Link>
                 </div>
               </div>
             ))}
@@ -100,7 +116,10 @@ function Encadreurs() {
                   <h3 className='font-extrabold text-xl'>{teacher.name}</h3>
                   <p>{teacher.description}</p>
                   <br />
-                  <Link to={`/profile/${teacher.id}`} className='px-10 py-2 rounded-full bg-stone-300 text-black'>Voir le profil</Link>
+
+                  {/*to={`/profile/${teacher.id}`}  */}
+
+                  <Link onClick={updateInscription} className='px-10 py-2 rounded-full bg-stone-300 text-black'>Voir le profil</Link>
                 </div>
               </div>
             ))}
@@ -113,7 +132,7 @@ function Encadreurs() {
                   <h3 className='font-extrabold text-xl'>{teacher.name}</h3>
                   <p>{teacher.description}</p>
                   <br />
-                  <Link to={`/profile/${teacher.id}`} className='px-10 py-2 rounded-full bg-stone-300 text-black'>Voir le profil</Link>
+                  <Link onClick={updateInscription}  className='px-10 py-2 rounded-full bg-stone-300 text-black'>Voir le profil</Link>
                 </div>
               </div>
             ))}
@@ -126,7 +145,7 @@ function Encadreurs() {
                   <h3 className='font-extrabold text-xl'>{teacher.name}</h3>
                   <p>{teacher.description}</p>
                   <br />
-                  <Link to={`/profile/${teacher.id}`} className='px-10 py-2 rounded-full bg-stone-300 text-black'>Voir le profil</Link>
+                  <Link onClick={updateInscription}  className='px-10 py-2 rounded-full bg-stone-300 text-black'>Voir le profil</Link>
                 </div>
               </div>
             ))}
@@ -139,7 +158,7 @@ function Encadreurs() {
                   <h3 className='font-extrabold text-xl'>{teacher.name}</h3>
                   <p>{teacher.description}</p>
                   <br />
-                  <Link to={`/profile/${teacher.id}`} className='px-10 py-2 rounded-full bg-stone-300 text-black'>Voir le profil</Link>
+                  <Link onClick={updateInscription}  className='px-10 py-2 rounded-full bg-stone-300 text-black'>Voir le profil</Link>
                 </div>
               </div>
             ))}
@@ -152,7 +171,7 @@ function Encadreurs() {
                   <h3 className='font-extrabold text-xl'>{teacher.name}</h3>
                   <p>{teacher.description}</p>
                   <br />
-                  <Link to={`/profile/${teacher.id}`} className='px-10 py-2 rounded-full bg-stone-300 text-black'>Voir le profil</Link>
+                  <Link onClick={updateInscription}  className='px-10 py-2 rounded-full bg-stone-300 text-black'>Voir le profil</Link>
                 </div>
               </div>
             ))}
@@ -165,7 +184,7 @@ function Encadreurs() {
                   <h3 className='font-extrabold text-xl'>{teacher.name}</h3>
                   <p>{teacher.description}</p>
                   <br />
-                  <Link to={`/profile/${teacher.id}`} className='px-10 py-2 rounded-full bg-stone-300 text-black'>Voir le profil</Link>
+                  <Link onClick={updateInscription}  className='px-10 py-2 rounded-full bg-stone-300 text-black'>Voir le profil</Link>
                 </div>
               </div>
             ))}
@@ -178,7 +197,7 @@ function Encadreurs() {
                   <h3 className='font-extrabold text-xl'>{teacher.name}</h3>
                   <p>{teacher.description}</p>
                   <br />
-                  <Link to={`/profile/${teacher.id}`} className='px-10 py-2 rounded-full bg-stone-300 text-black'>Voir le profil</Link>
+                  <Link onClick={updateInscription}  className='px-10 py-2 rounded-full bg-stone-300 text-black'>Voir le profil</Link>
                 </div>
               </div>
             ))}
@@ -191,7 +210,7 @@ function Encadreurs() {
                   <h3 className='font-extrabold text-xl'>{teacher.name}</h3>
                   <p>{teacher.description}</p>
                   <br />
-                  <Link to={`/profile/${teacher.id}`} className='px-10 py-2 rounded-full bg-stone-300 text-black'>Voir le profil</Link>
+                  <Link onClick={updateInscription}  className='px-10 py-2 rounded-full bg-stone-300 text-black'>Voir le profil</Link>
                 </div>
               </div>
             ))}
@@ -204,13 +223,26 @@ function Encadreurs() {
                   <h3 className='font-extrabold text-xl'>{teacher.name}</h3>
                   <p>{teacher.description}</p>
                   <br />
-                  <Link to={`/profile/${teacher.id}`} className='px-10 py-2 rounded-full bg-stone-300 text-black'>Voir le profil</Link>
+                  <Link onClick={updateInscription}  className='px-10 py-2 rounded-full bg-stone-300 text-black'>Voir le profil</Link>
                 </div>
               </div>
             ))}
           </Tabs.Content>
         </Tabs>
       </div>
+      <div id={inscription ? hideInscription : showInscription}>
+                <div className="detail bg-white p-[2rem] rounded-md gap-4 ">
+                    <h1 className='font-extrabold text-xl'>Avez-vous un compte?</h1>
+                    <p className="mt-2">Creer un compte en tant que</p>
+                    <div className="flex flex-wrap gap-2 mt-5">
+                    <Link onClick={update} to='/InscriptEncadreur' className='bg-red-600 text-white px-5 py-2 rounded-full'>Encadreur</Link>
+                    <Link onClick={update} to='/Inscription' className='bg-blue-600 text-white px-5 py-2 rounded-full'>Eleve</Link>
+                    <Link onClick={update} to='/InscriptParent' className='bg-green-600 text-white px-5 py-2 rounded-full'>Parent</Link>
+                    <Link onClick={update} to='/' className='bg-slate-950 text-white px-5 py-2 rounded-full'>Close</Link>
+
+                   </div>
+                </div>
+            </div>
     </div>
   );
 }

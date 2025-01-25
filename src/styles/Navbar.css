@@ -64,7 +64,67 @@
 .main-navbar .closeIcon {
   position: relative;
   left: 10px;
-  top: -200px;
+  top: -100px;
   cursor: pointer;
   border-radius: 30px;
+}
+
+#hideInscription {
+  display: none;
+  background-color: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+}
+#hideInscription .detail {
+  max-width: 700px;
+  width: 80%;
+  margin: 200px auto;
+}
+
+#showInscription {
+  display: block;
+  background-color: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+}
+#showInscription .detail {
+  max-width: 700px;
+  width: 80%;
+  margin: 200px auto;
+}
+
+#hideCompte {
+  display: none;
+  background-color: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+}
+#hideCompte .detailCompte {
+  max-width: 500px;
+  width: 60%;
+  margin: 200px auto;
+}
+
+#showCompte {
+  display: block;
+  background-color: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+}
+#showCompte .detailCompte {
+  max-width: 500px;
+  width: 60%;
+  margin: 200px auto;
 }/*# sourceMappingURL=Navbar.css.map */
