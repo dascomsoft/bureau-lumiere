@@ -51,11 +51,11 @@ function Profile() {
                             <br />
                             <div>
                                 <h1 className='font-extrabold text-3xl'>Contacter</h1>
-                                <p>Pour tous autres besions particuliers ou cours de repetition a domicile veuillez contacter l'enseignant en cliquant sur le bouton ci-dessous</p>
+                                <p>Pour tout autres besions particuliers ou assistance personnel , veuillez contacter l'enseignant en cliquant sur le bouton ci-dessous</p>
                             </div>
                             <br />
                             <div className='grid md:grid-cols-2 gap-3'>
-                                <Link to="/encadreurs" className='px-10 py-2 rounded-full bg-stone-400 text-white shadow-md text-center'>Retour</Link>
+                                <Link to="/ProfilEncadreur" className='px-10 py-2 rounded-full bg-stone-400 text-white shadow-md text-center'>Retour</Link>
                                 <button onClick={updateButton}  className='px-10 py-2 rounded-full bg-stone-400 text-white shadow-md text-center '>Contact</button>
                             </div>
 
@@ -77,7 +77,7 @@ function Profile() {
                     <h1 className='font-extrabold text-xl'>contact</h1>
                     <p><span className='text-red-600 font-semibold'>Telephone</span> : {teacher.phone}</p>
                     <br />
-                    <Link to='/encadreurs' className='bg-red-600 text-white px-5 py-2 rounded-full'>Retour</Link>
+                    <Link to='/ProfilEncadreur' className='bg-red-600 text-white px-5 py-2 rounded-full'>Retour</Link>
                 </div>
             </div>
         </div>

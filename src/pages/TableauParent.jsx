@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import {
   collection,
@@ -142,6 +143,8 @@ const TableauParent = () => {
               <p><strong>Nom :</strong> {parent.nom}</p>
               <p><strong>Prénom :</strong> {parent.prenom}</p>
               <p><strong>Email :</strong> {parent.email}</p>
+              <br />
+              <Link to='/PageParentEncadreur' className="text-white bg-slate-600 hover:bg-slate-800 p-3 rounded-lg text-center">Forum de discussions</Link>
             </div>
           ) : (
             <p>Aucun parent connecté trouvé.</p>

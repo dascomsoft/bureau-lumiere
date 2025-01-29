@@ -19,6 +19,8 @@ import TableauParent from "./pages/TableauParent";
 import InscriptEncadreur from "./pages/InscriptEncadreur"
 import InscriptParent from "./pages/InscriptParent"
 import EncadreurEleve from "./pages/EncadreurEleve"
+import PageParentEncadreur from "./pages/ParentEncadreur";
+import ProfilEncadreur from "./pages/ProfilEncadreur"
 
 
 
@@ -57,6 +59,8 @@ function App() {
           <Route path="InscriptEncadreur" element={<InscriptEncadreur/>} />
           <Route path="InscriptParent" element={<InscriptParent/>} />
           <Route path="EncadreurEleve" element={<EncadreurEleve/>} />
+          <Route path="PageParentEncadreur" element={<PageParentEncadreur/>} />
+          <Route path="ProfilEncadreur" element={<ProfilEncadreur/>} />
 
         </Routes>
         <Footer />

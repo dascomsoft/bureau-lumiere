@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
@@ -106,6 +107,11 @@ const PageEncadreur = () => {
             <h2 className="text-2xl font-semibold mb-4">Profil de l'encadreur</h2>
             <p><strong>Nom :</strong> {encadreur.nom}</p>
             <p><strong>Email :</strong> {encadreur.email}</p>
+            <br />
+            <div className="flex flex-wrap gap-3">
+           <Link to='/EncadreurEleve' className="text-white bg-slate-600 hover:bg-slate-800 p-3 rounded-lg text-center">Forum de discussions élève</Link>
+           <Link to='/PageParentEncadreur' className="text-white bg-red-600 hover:bg-slate-800 p-3 rounded-lg text-center">Forum de discussions parents</Link>
+           </div>
           </div>
         ) : (
           <p>Chargement des informations de l'encadreur...</p>

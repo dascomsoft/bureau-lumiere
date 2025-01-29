@@ -15,7 +15,7 @@ const Navbar = ({ user }) => {
 
   const [openLinks, setOpenLinks] = useState(true);
   const [inscription, setInscription] = useState(true);
-  const[compte , setCompte] = useState(true)
+  const [compte, setCompte] = useState(true)
 
   const toggleMenu = () => {
     setOpenLinks(!openLinks);
@@ -51,46 +51,50 @@ const Navbar = ({ user }) => {
     setCompte(!compte);
   };
 
-// Fonction pour gérer la redirection en fonction du rôle
-const handleProfileRedirect = () => {
-  if (!user) return; // Si l'utilisateur n'est pas connecté, ne rien faire
+  // Fonction pour gérer la redirection en fonction du rôle
+  const handleProfileRedirect = () => {
+    if (!user) return; // Si l'utilisateur n'est pas connecté, ne rien faire
 
-  // Logique pour rediriger selon le rôle
-  switch (user.role) {
-    case "eleve":
-      navigate("/TableauEleve");
-      break;
-    case "parent":
-      navigate("/TableauParent");
-      break;
-    case "encadreur":
-      navigate("/TableauEncadreur");
-      break;
-    default:
-      // Si le rôle est inconnu ou non défini, rediriger vers la page d'accueil ou autre
-      navigate("/");
-      break;
+    // Logique pour rediriger selon le rôle
+    switch (user.role) {
+      case "eleve":
+        navigate("/TableauEleve");
+        break;
+      case "parent":
+        navigate("/TableauParent");
+        break;
+      case "encadreur":
+        navigate("/TableauEncadreur");
+        break;
+      default:
+        // Si le rôle est inconnu ou non défini, rediriger vers la page d'accueil ou autre
+        navigate("/");
+        break;
+    }
+  };
+
+
+  const changeCompte = () => {
+    setCompte(true)
   }
-};
 
+  const closeCompte = () => {
+    handleProfileRedirect();
+    changeCompte();
 
-const changeCompte =()=>{
-  setCompte(true)
-}
-
-const closeCompte =() =>{
-  handleProfileRedirect();
-  changeCompte();
-
-}
+  }
 
 
 
-const updateSignOut =()=>{
-  handleSignOut();
-  changeCompte();
-}
+  const updateSignOut = () => {
+    handleSignOut();
+    changeCompte();
+  }
 
+  const updateMobileNav = () =>{
+    handleLinkClick();
+    toggleInscription()
+  }
 
 
 
@@ -121,20 +125,27 @@ const updateSignOut =()=>{
               <Link onClick={handleLinkClick} className="head-link" to="/">
                 Accueil
               </Link>
-              <Link
-                onClick={handleLinkClick}
-                className="head-link"
-                to="/Encadreurs"
-              >
-                Encadreurs
-              </Link>
+
               <Link onClick={handleLinkClick} className="head-link" to="/blog">
                 Blog
               </Link>
               {user ? (
-                <p className="cursor-pointer text-yellow-300 font-extrabold">Bienvenue , {user.nom}</p>
-              ):(
                 <>
+                  <Link onClick={handleLinkClick} className="head-link cursor-pointer text-green-400 font-extrabold" to="/ProfilEncadreur">
+                    Profils Encadreurs
+                  </Link>
+                  <p onClick={handleCompte} className="cursor-pointer text-yellow-300 font-extrabold">Mon Compte</p>
+
+                </>
+              ) : (
+                <>
+                  <Link
+                    onClick={handleLinkClick}
+                    className="head-link"
+                    to="/Encadreurs"
+                  >
+                    Encadreurs
+                  </Link>
                   <Link
                     onClick={handleLinkClick}
                     className="head-link"
@@ -142,7 +153,7 @@ const updateSignOut =()=>{
                   >
                     Connection
                   </Link>
-                  <button onClick={toggleInscription} className="head-link">
+                  <button onClick={updateMobileNav} className="head-link">
                     Inscription
                   </button>
                 </>
@@ -152,20 +163,23 @@ const updateSignOut =()=>{
               <Link className="head-link" to="/">
                 Accueil
               </Link>
-              <Link className="head-link" to="/Encadreurs">
-                Encadreurs
-              </Link>
+             
               <Link className="head-link" to="/blog">
                 Blog
               </Link>
               {user ? (
-               <>
-                <p onClick={handleCompte} className="cursor-pointer text-yellow-300 font-extrabold">Mon Compte</p>
-                <Link to='/EncadreurEleve' className="text-green-500">TABLEAU QUESTIONS</Link>
+                <>
+                  <Link className="head-link cursor-pointer text-green-400 font-extrabold" to="/ProfilEncadreur">
+                    Profils Encadreurs
+                  </Link>
+                  <p onClick={handleCompte} className="cursor-pointer text-yellow-300 font-extrabold">Mon Compte</p>
                 </>
-                 
+
               ) : (
                 <>
+                 <Link className="head-link" to="/Encadreurs">
+                Encadreurs
+              </Link>
                   <Link className="head-link" to="/Login">
                     Connection
                   </Link>
@@ -217,7 +231,7 @@ const updateSignOut =()=>{
             >
               Parent
             </Link>
-            <Link  onClick={closeInscription} className="bg-slate-950 text-white px-5 py-2 rounded-full" to='/'>Close</Link>
+            <Link onClick={closeInscription} className="bg-slate-950 text-white px-5 py-2 rounded-full" to='/'>Close</Link>
           </div>
         </div>
       </div>
@@ -225,13 +239,15 @@ const updateSignOut =()=>{
       {/* ZONE POUR GERER LE PROFIL UTILISATEUR (PROFIL ET DECONNECTION)*/}
 
       <div className="compte-section" id={compte ? "hideCompte" : "showCompte"}>
-       <div className="detailCompte bg-white p-10 rounded-md">
-        <h1 className="font-bold text-xl">Compte utilisateur</h1>
-        <div className="flex flex-wrap gap-5 mt-5">
-        <button className="bg-red-600 text-white px-5 py-2 rounded-full" onClick={closeCompte} >Mon profil</button>
-        <Link to='/' className="bg-green-600 text-white px-5 py-2 rounded-full" onClick={updateSignOut}>Deconnection</Link>
+        <div className="detailCompte bg-white p-10 rounded-md">
+          <h1 className="font-bold text-xl">Compte utilisateur</h1>
+          <div className="flex flex-wrap gap-5 mt-5">
+            <button className="bg-red-600 text-white px-5 py-2 rounded-full" onClick={closeCompte} >Mon profil</button>
+            <Link to='/' className="bg-green-600 text-white px-5 py-2 rounded-full" onClick={updateSignOut}>Deconnection</Link>
+            <button className="bg-black text-white px-5 py-2 rounded-full" onClick={changeCompte} >Close</button>
+
+          </div>
         </div>
-       </div>
       </div>
     </div>
   );

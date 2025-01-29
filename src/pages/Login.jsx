@@ -1,3 +1,5 @@
+
+
 import React, { useState, useEffect } from "react";
 import "../styles/Login.css";
 import { Link, useNavigate } from "react-router-dom";
@@ -5,11 +7,35 @@ import { auth } from "../firebase-config";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 
+
+
 function Login({ setUser }) {
     useEffect(() => {
         // Faire défiler vers le haut au chargement de la page
         window.scrollTo(0, 0);
     }, []);
+
+    const [openLinks, setOpenLinks] = useState(true);
+    const [inscription, setInscription] = useState(true);
+    const [compte, setCompte] = useState(true)
+
+    const toggleMenu = () => {
+        setOpenLinks(!openLinks);
+    };
+
+    const handleLinkClick = () => {
+        setOpenLinks(true);
+    };
+
+    const toggleInscription = () => {
+        setInscription(!inscription);
+    };
+
+    const closeInscription = () => {
+        setInscription(true);
+    };
+
+    
 
     const [email, setEmail] = useState("");
     const [motDePasse, setMotDePasse] = useState("");
@@ -96,12 +122,41 @@ function Login({ setUser }) {
                         Se connecter
                     </button>
                     <p className="text-center pt-[1rem]">
-                        <Link to="/register">Vous n'avez pas encore de compte ?<span className="text-blue-600 font-bold">S'inscrire ici</span></Link>
+                        <Link >Vous n'avez pas encore de compte ?<span onClick={toggleInscription} className="text-blue-600 font-bold">S'inscrire ici</span></Link>
                     </p>
                 </form>
-
             )}
 
+            <div id={inscription ? "hideInscription" : "showInscription"}>
+                <div className="detail bg-white p-10 rounded-md flex-col gap-4">
+                    <h1 className="font-extrabold text-xl">Inscription</h1>
+                    <p className="mt-2">Je souhaite creer un compte en tant que</p>
+                    <div className="flex flex-wrap gap-4 mt-5">
+                        <Link
+                            onClick={closeInscription}
+                            to="/InscriptEncadreur"
+                            className="bg-red-600 text-white px-5 py-2 rounded-full"
+                        >
+                            Encadreur
+                        </Link>
+                        <Link
+                            onClick={closeInscription}
+                            to="/InscriptEleve"
+                            className="bg-blue-600 text-white px-5 py-2 rounded-full"
+                        >
+                            Eleve
+                        </Link>
+                        <Link
+                            onClick={closeInscription}
+                            to="/InscriptParent"
+                            className="bg-green-600 text-white px-5 py-2 rounded-full"
+                        >
+                            Parent
+                        </Link>
+                        <Link onClick={closeInscription} className="bg-slate-950 text-white px-5 py-2 rounded-full" to='/'>Close</Link>
+                    </div>
+                </div>
+            </div>
 
         </div>
     );

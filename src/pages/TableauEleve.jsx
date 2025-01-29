@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import {
   collection,
@@ -158,6 +159,9 @@ const TableauEleve = () => {
                   <p>Classe de l'élève : {eleve.classe}</p>
                   <p>Examen a presenter : {eleve.examen}</p>
                   <p>Quatier : {eleve.quatier}</p>
+                  <br />
+                  <Link to='/EncadreurEleve' className="text-white bg-slate-600 hover:bg-slate-800 p-3 rounded-lg text-center">TABLEAU QUESTIONS</Link>
+
                 </div>
               ))
             ) : (
@@ -233,7 +237,9 @@ const TableauEleve = () => {
             <p>Aucune notification pour le moment.</p>
           )}
         </div>
+
       </div>
+
     </div>
   );
 };

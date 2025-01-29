@@ -37,7 +37,7 @@ function Home() {
           <p className='py-[1rem]'>"Accompagner chaque élève vers l'excellence avec des cours de soutien <br /> personnalisés pour réussir les examens."</p>
           <p>"Au sein de la Commission Étude, nous visons à approfondir les connaissances de nos apprenants, en alliant savoir académique et éclairage spirituel. Chaque session d’étude est une opportunité d'élargir nos horizons intellectuels tout en restant ancrés dans les valeurs de foi, de recherche de vérité et de sagesse divine."</p>
           <br /><br />
-          <Link to="/contact" className=' bg-yellow-300 hover:bg-white hover:text-black text-black px-12 py-3 rounded-full'>En Savoir Plus</Link>
+          <Link to="/blog" className=' bg-yellow-300 hover:bg-white hover:text-black text-black px-12 py-3 rounded-full'>En Savoir Plus</Link>
         </div>
       </div>
       <div className="devise-section py-[4rem] bg-stone-200">
