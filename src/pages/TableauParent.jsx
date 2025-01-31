@@ -8,6 +8,8 @@ import {
   updateDoc,
   deleteDoc,
   doc,
+  query,
+  where,
 } from "firebase/firestore";
 import { db } from "../firebase-config";
 
@@ -47,7 +49,9 @@ const TableauParent = () => {
 
     const fetchQuestions = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "questions"));
+        // Filtrer les questions pour n'afficher que celles des parents
+        const q = query(collection(db, "questions"), where("role", "==", "parent"));
+        const querySnapshot = await getDocs(q);
         const fetchedQuestions = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
@@ -72,6 +76,7 @@ const TableauParent = () => {
           parentId: parent.id,
           parentNom: `${parent.nom} ${parent.prenom}`,
           date: new Date(),
+          role: "parent", // Ajoutez ce champ pour identifier l'origine de la question
         });
 
         setQuestions((prev) => [
@@ -82,6 +87,7 @@ const TableauParent = () => {
             parentId: parent.id,
             parentNom: `${parent.nom} ${parent.prenom}`,
             date: new Date(),
+            role: "parent",
           },
         ]);
         setQuestion("");
