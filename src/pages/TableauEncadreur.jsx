@@ -1,411 +1,278 @@
-// import React, { useState, useEffect } from "react";
-// import { Link } from "react-router-dom";
-// import { getAuth } from "firebase/auth";
-// import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc } from "firebase/firestore";
-// import { db } from "../firebase-config";
 
-// const PageEncadreur = () => {
-//   const [encadreur, setEncadreur] = useState(null); // Détails de l'encadreur
-//   const [question, setQuestion] = useState(""); // Question à envoyer
-//   const [questions, setQuestions] = useState([]); // Liste des questions
-//   const [messageEnvoye, setMessageEnvoye] = useState(""); // Message de confirmation
-//   const [loading, setLoading] = useState(false); // Indicateur de chargement
-//   const [editId, setEditId] = useState(null); // ID de la question en cours de modification
-//   const [deleteId, setDeleteId] = useState(null); // ID de la question en cours de suppression
-//   const [editedText, setEditedText] = useState(""); // Texte modifié
-
-//   useEffect(() => {
-//     const fetchEncadreurConnecte = async () => {
-//       const auth = getAuth();
-//       const utilisateurConnecte = auth.currentUser;
-
-//       if (utilisateurConnecte) {
-//         try {
-//           const querySnapshot = await getDocs(collection(db, "utilisateurs"));
-//           const encadreurConnecte = querySnapshot.docs
-//             .map((doc) => ({ id: doc.id, ...doc.data() }))
-//             .find((encadreur) => encadreur.id === utilisateurConnecte.uid);
-
-//           if (encadreurConnecte) {
-//             setEncadreur(encadreurConnecte);
-//           } else {
-//             console.warn("Aucun encadreur trouvé pour cet utilisateur.");
-//           }
-//         } catch (error) {
-//           console.error("Erreur lors de la récupération des données :", error);
-//         }
-//       } else {
-//         console.warn("Aucun utilisateur connecté.");
-//       }
-//     };
-
-//     fetchEncadreurConnecte();
-//   }, []);
-
-//   const envoyerQuestion = async () => {
-//     if (!question.trim()) {
-//       setMessageEnvoye("Veuillez entrer une question avant de l'envoyer.");
-//       return;
-//     }
-
-//     setLoading(true);
-
-//     try {
-//       const questionData = {
-//         question,
-//         date: new Date(),
-//         encadreurId: encadreur?.id,
-//       };
-
-//       await addDoc(collection(db, "questions"), questionData);
-
-//       setQuestions((prev) => [...prev, questionData]);
-//       setQuestion("");
-//       setMessageEnvoye("Votre question a été envoyée avec succès!");
-//     } catch (error) {
-//       console.error("Erreur lors de l'envoi de la question :", error);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   const supprimerQuestion = async (id) => {
-//     try {
-//       await deleteDoc(doc(db, "questions", id));
-//       setQuestions(questions.filter((q) => q.id !== id));
-//       setMessageEnvoye("Question supprimée avec succès !");
-//       setDeleteId(null);
-//     } catch (error) {
-//       console.error("Erreur lors de la suppression de la question :", error);
-//     }
-//   };
-
-//   const modifierQuestion = async (id) => {
-//     try {
-//       const questionRef = doc(db, "questions", id);
-//       await updateDoc(questionRef, {
-//         question: editedText,
-//       });
-
-//       setQuestions(
-//         questions.map((q) => (q.id === id ? { ...q, question: editedText } : q))
-//       );
-//       setMessageEnvoye("Question modifiée avec succès !");
-//       setEditId(null);
-//     } catch (error) {
-//       console.error("Erreur lors de la modification de la question :", error);
-//     }
-//   };
-
-//   return (
-//     <div className="py-[10rem] bg-gray-100 min-h-screen">
-//       <div className="container mx-auto">
-//         <h1 className="text-3xl font-bold text-center mb-6">Page Encadreur</h1>
-
-//         {encadreur ? (
-//           <div className="bg-white shadow-md rounded-lg p-6 mb-6">
-//             <h2 className="text-2xl font-semibold mb-4">Profil de l'encadreur</h2>
-//             <p><strong>Nom :</strong> {encadreur.nom}</p>
-//             <p><strong>Email :</strong> {encadreur.email}</p>
-//             <br />
-//             <div className="flex flex-wrap gap-3">
-//            <Link to='/EncadreurEleve' className="text-white bg-slate-600 hover:bg-slate-800 p-3 rounded-lg text-center">Forum de discussions élève</Link>
-//            <Link to='/PageParentEncadreur' className="text-white bg-red-600 hover:bg-slate-800 p-3 rounded-lg text-center">Forum de discussions parents</Link>
-//            </div>
-//           </div>
-//         ) : (
-//           <p>Chargement des informations de l'encadreur...</p>
-//         )}
-
-//         <div className="bg-white shadow-md rounded-lg p-6 mb-6">
-//           <h2 className="text-2xl font-semibold mb-4">Envoyer une Question</h2>
-//           <textarea
-//             value={question}
-//             onChange={(e) => setQuestion(e.target.value)}
-//             className="w-full px-4 py-2 border rounded"
-//             placeholder="Posez votre question..."
-//           ></textarea>
-//           <button
-//             onClick={envoyerQuestion}
-//             className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
-//           >
-//             {loading ? "Envoi..." : "Envoyer"}
-//           </button>
-//           {messageEnvoye && <p className="mt-4 text-green-600">{messageEnvoye}</p>}
-//         </div>
-
-//         <div className="bg-white shadow-md rounded-lg p-6">
-//           <h2 className="text-2xl font-semibold mb-4">Questions envoyées</h2>
-//           {questions.map((q) => (
-//             <div key={q.id} className="mb-4 border-b pb-4">
-//               <p><strong>Question :</strong> {q.question}</p>
-//               {editId === q.id ? (
-//                 <div>
-//                   <textarea
-//                     value={editedText}
-//                     onChange={(e) => setEditedText(e.target.value)}
-//                     className="w-full px-4 py-2 border rounded mt-2"
-//                   ></textarea>
-//                   <button
-//                     onClick={() => modifierQuestion(q.id)}
-//                     className="mt-2 bg-green-500 text-white px-4 py-2 rounded"
-//                   >
-//                     Valider
-//                   </button>
-//                   <button
-//                     onClick={() => setEditId(null)}
-//                     className="ml-2 mt-2 bg-gray-500 text-white px-4 py-2 rounded"
-//                   >
-//                     Annuler
-//                   </button>
-//                 </div>
-//               ) : deleteId === q.id ? (
-//                 <div>
-//                   <p className="text-red-600">Confirmer la suppression ?</p>
-//                   <button
-//                     onClick={() => supprimerQuestion(q.id)}
-//                     className="bg-red-500 text-white px-4 py-2 rounded"
-//                   >
-//                     Oui
-//                   </button>
-//                   <button
-//                     onClick={() => setDeleteId(null)}
-//                     className="ml-2 bg-gray-500 text-white px-4 py-2 rounded"
-//                   >
-//                     Non
-//                   </button>
-//                 </div>
-//               ) : (
-//                 <div>
-//                   <button
-//                     onClick={() => {
-//                       setEditId(q.id);
-//                       setEditedText(q.question);
-//                     }}
-//                     className="mr-4 text-blue-500 hover:underline"
-//                   >
-//                     Modifier
-//                   </button>
-//                   <button
-//                     onClick={() => setDeleteId(q.id)}
-//                     className="text-red-500 hover:underline"
-//                   >
-//                     Supprimer
-//                   </button>
-//                 </div>
-//               )}
-//             </div>
-//           ))}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default PageEncadreur;
 
 
 
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { getAuth } from "firebase/auth";
-import { collection, getDocs, addDoc, deleteDoc, doc, query, where } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  onSnapshot,
+  doc,
+  getDoc,
+  deleteDoc,
+  addDoc,
+} from "firebase/firestore";
 import { db } from "../firebase-config";
+import { useNavigate } from "react-router-dom";
 
 const PageEncadreur = () => {
-  const [encadreur, setEncadreur] = useState(null);
-  const [question, setQuestion] = useState("");
-  const [questions, setQuestions] = useState([]);
-  const [messageEnvoye, setMessageEnvoye] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [editId, setEditId] = useState(null);
-  const [deleteId, setDeleteId] = useState(null);
-  const [editedText, setEditedText] = useState("");
+  const [user, setUser] = useState(null); // Informations de l'encadreur
+  const [messages, setMessages] = useState([]); // Liste des messages reçus
+  const [selectedUser, setSelectedUser] = useState(null); // Utilisateur sélectionné pour la messagerie
+  const [messageText, setMessageText] = useState(""); // Texte du message direct
+  const navigate = useNavigate();
+
+
 
   useEffect(() => {
-    const fetchEncadreurConnecte = async () => {
-      const auth = getAuth();
-      const utilisateurConnecte = auth.currentUser;
-
-      if (utilisateurConnecte) {
-        try {
-          const querySnapshot = await getDocs(collection(db, "utilisateurs"));
-          const encadreurConnecte = querySnapshot.docs
-            .map((doc) => ({ id: doc.id, ...doc.data() }))
-            .find((encadreur) => encadreur.id === utilisateurConnecte.uid);
-
-          if (encadreurConnecte) {
-            setEncadreur(encadreurConnecte);
-          } else {
-            console.warn("Aucun encadreur trouvé pour cet utilisateur.");
-          }
-        } catch (error) {
-          console.error("Erreur lors de la récupération des données :", error);
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+  
+    if (currentUser) {
+      console.log("ID de l'utilisateur connecté :", currentUser.uid);
+  
+      // Récupérer les informations de l'utilisateur connecté
+      const userDocRef = doc(db, "utilisateurs", currentUser.uid);
+      getDoc(userDocRef).then((doc) => {
+        if (doc.exists()) {
+          setUser(doc.data()); // Mettre à jour l'état avec les informations de l'utilisateur
+        } else {
+          console.error("Aucun document utilisateur trouvé pour cet ID.");
         }
-      } else {
-        console.warn("Aucun utilisateur connecté.");
-      }
-    };
-
-    fetchEncadreurConnecte();
+      }).catch((error) => {
+        console.error("Erreur lors de la récupération des informations de l'utilisateur :", error);
+      });
+  
+      // Charger les messages reçus par l'encadreur
+      const q = query(collection(db, "messages"), where("to", "==", currentUser.uid));
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        console.log("Nombre de messages reçus :", snapshot.docs.length);
+        const fetchedMessages = snapshot.docs.map((doc) => {
+          const messageData = doc.data();
+          console.log("Message reçu :", messageData);
+  
+          return {
+            id: doc.id,
+            ...messageData,
+            // Les informations de l'expéditeur sont déjà incluses dans le message
+            senderName: messageData.senderName || "Anonyme",
+            senderRole: messageData.senderRole || "Inconnu",
+          };
+        });
+        setMessages(fetchedMessages);
+        console.log("Messages dans l'état :", fetchedMessages);
+      });
+  
+      return unsubscribe;
+    }
   }, []);
 
-  const envoyerQuestion = async () => {
-    if (!question.trim()) {
-      setMessageEnvoye("Veuillez entrer une question avant de l'envoyer.");
-      return;
-    }
 
-    setLoading(true);
 
+
+
+
+
+  const deleteMessage = async (messageId) => {
     try {
-      const questionData = {
-        question,
-        date: new Date(),
-        encadreurId: encadreur?.id,
-        role: "encadreur", // Ajoutez ce champ
-      };
-
-      await addDoc(collection(db, "questions"), questionData);
-
-      setQuestions((prev) => [...prev, questionData]);
-      setQuestion("");
-      setMessageEnvoye("Votre question a été envoyée avec succès!");
+      await deleteDoc(doc(db, "messages", messageId));
+      setMessages(messages.filter((message) => message.id !== messageId));
+      alert("Message supprimé avec succès !");
     } catch (error) {
-      console.error("Erreur lors de l'envoi de la question :", error);
-    } finally {
-      setLoading(false);
+      console.error("Erreur lors de la suppression du message :", error);
     }
   };
 
-  const supprimerQuestion = async (id) => {
-    try {
-      await deleteDoc(doc(db, "questions", id));
-      setQuestions(questions.filter((q) => q.id !== id));
-      setMessageEnvoye("Question supprimée avec succès !");
-      setDeleteId(null);
-    } catch (error) {
-      console.error("Erreur lors de la suppression de la question :", error);
+  // Envoyer un message direct
+  // const sendMessage = async () => {
+  //   if (messageText.trim() !== "") {
+  //     try {
+  //       const auth = getAuth();
+  //       const currentUser = auth.currentUser;
+
+  //       await addDoc(collection(db, "messages"), {
+  //         from: currentUser.uid, // ID de l'expéditeur (élève ou parent)
+  //         to: selectedUser.userId, // ID de l'encadreur (destinataire)
+  //         text: messageText,
+  //         date: new Date(),
+  //       });
+  //       setMessageText("");
+  //       setSelectedUser(null);
+  //       alert("Message envoyé avec succès !");
+  //     } catch (error) {
+  //       console.error("Erreur lors de l'envoi du message :", error);
+  //     }
+  //   }
+  // };
+
+
+
+
+
+
+  const sendMessage = async () => {
+    if (messageText.trim() !== "") {
+      try {
+        const auth = getAuth();
+        const currentUser = auth.currentUser;
+  
+        // Récupérer les informations de l'utilisateur connecté depuis Firestore
+        const userDocRef = doc(db, "utilisateurs", currentUser.uid);
+        const userDoc = await getDoc(userDocRef);
+  
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+  
+          // Ajouter le message avec les informations de l'expéditeur
+          await addDoc(collection(db, "messages"), {
+            from: currentUser.uid, // ID de l'expéditeur
+            to: selectedUser.userId, // ID du destinataire
+            text: messageText, // Texte du message
+            date: new Date(), // Date du message
+            senderName: `${userData.nom} ${userData.prenom}`, // Nom complet de l'expéditeur
+            senderRole: userData.role, // Rôle de l'expéditeur
+          });
+  
+          // Réinitialiser le champ de texte et fermer la pop-up
+          setMessageText("");
+          setSelectedUser(null);
+          alert("Message envoyé avec succès !");
+        } else {
+          console.error("Utilisateur non trouvé dans Firestore.");
+        }
+      } catch (error) {
+        console.error("Erreur lors de l'envoi du message :", error);
+      }
     }
   };
 
-  const modifierQuestion = async (id) => {
-    try {
-      const questionRef = doc(db, "questions", id);
-      await updateDoc(questionRef, {
-        question: editedText,
-      });
 
-      setQuestions(
-        questions.map((q) => (q.id === id ? { ...q, question: editedText } : q))
-      );
-      setMessageEnvoye("Question modifiée avec succès !");
-      setEditId(null);
-    } catch (error) {
-      console.error("Erreur lors de la modification de la question :", error);
-    }
+
+
+
+
+  // Redirection vers les forums
+  const goToForumEncadreursEleves = () => {
+    navigate("/EncadreurEleve");
+  };
+
+  const goToForumEncadreursParents = () => {
+    navigate("/ParentEncadreur");
   };
 
   return (
-    <div className="py-[10rem] bg-gray-100 min-h-screen">
-      <div className="container mx-auto">
-        <h1 className="text-3xl font-bold text-center mb-6">Page Encadreur</h1>
+    <div className="pt-[10rem] pb-[2rem] bg-stone-100 min-h-screen">
+      <div className="container mx-auto px-4">
+        {/* Section Profil de l'encadreur */}
+        <div className="bg-white shadow-md rounded-lg p-6 mb-8">
+          <h1 className="text-2xl font-bold text-blue-800 mb-4">Profil de l'encadreur</h1>
+          {user ? (
+            <div>
+              <p className="text-gray-700"><strong>Nom :</strong> {user.nom} {user.prenom}</p>
+              <p className="text-gray-700"><strong>Email :</strong> {user.email}</p>
+              <p className="text-gray-700"><strong>Rôle :</strong> {user.role}</p>
+            </div>
+          ) : (
+            <p>Chargement du profil...</p>
+          )}
+          <div className="mt-4 flex space-x-4">
+            <button
+              onClick={goToForumEncadreursEleves}
+              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+            >
+              Forum Encadreurs-Élèves
+            </button>
+            <button
+              onClick={goToForumEncadreursParents}
+              className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300"
+            >
+              Forum Encadreurs-Parents
+            </button>
+          </div>
+        </div>
 
-        {encadreur ? (
-          <div className="bg-white shadow-md rounded-lg p-6 mb-6">
-            <h2 className="text-2xl font-semibold mb-4">Profil de l'encadreur</h2>
-            <p><strong>Nom :</strong> {encadreur.nom}</p>
-            <p><strong>Email :</strong> {encadreur.email}</p>
-            <br />
-            <div className="flex flex-wrap gap-3">
-              <Link to='/EncadreurEleve' className="text-white bg-slate-600 hover:bg-slate-800 p-3 rounded-lg text-center">Forum de discussions élève</Link>
-              <Link to='/PageParentEncadreur' className="text-white bg-red-600 hover:bg-slate-800 p-3 rounded-lg text-center">Forum de discussions parents</Link>
+        
+        
+
+
+
+
+<div className="bg-white shadow-md rounded-lg p-6">
+  <h2 className="text-2xl font-bold text-blue-800 mb-4">Messages reçus</h2>
+  {messages.length === 0 ? (
+    <p className="text-gray-700">Aucun message reçu pour le moment.</p>
+  ) : (
+    <div className="space-y-4">
+      {messages.map((message) => (
+        <div key={message.id} className="border-b  pb-4 ">
+          <p className="text-gray-700">
+            <strong>De :</strong> {message.senderName}
+          </p>
+          <p className="text-gray-700"><strong>Rôle :</strong> {message.senderRole}</p>
+          <p className="text-gray-700">
+            <strong>Date :</strong>{" "}
+            {message.date?.seconds
+              ? new Date(message.date.seconds * 1000).toLocaleString()
+              : "Date invalide"}
+          </p>
+          <p className="text-gray-700"><strong>Message :</strong> {message.text}</p>
+          <div className="mt-2 flex space-x-2">
+            <button
+              onClick={() => deleteMessage(message.id)}
+              className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
+            >
+              Supprimer
+            </button>
+            <button
+              onClick={() =>
+                setSelectedUser({
+                  userId: message.from,
+                  userName: message.senderName,
+                })
+              }
+              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+            >
+              Répondre
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  )}
+</div>
+
+        {/* Pop-up pour envoyer un message direct */}
+        {selectedUser && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div className="bg-white p-6 rounded-lg shadow-md w-96">
+              <h2 className="text-xl font-bold text-gray-800 mb-4">
+                Envoyer un message à {selectedUser.userName}
+              </h2>
+              <textarea
+                className="w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Écrivez votre message ici..."
+                value={messageText}
+                onChange={(e) => setMessageText(e.target.value)}
+              ></textarea>
+              <div className="flex justify-end space-x-2 mt-4">
+                <button
+                  onClick={() => setSelectedUser(null)}
+                  className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600"
+                >
+                  Annuler
+                </button>
+                <button
+                  onClick={sendMessage}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+                >
+                  Envoyer
+                </button>
+              </div>
             </div>
           </div>
-        ) : (
-          <p>Chargement des informations de l'encadreur...</p>
         )}
-
-        <div className="bg-white shadow-md rounded-lg p-6 mb-6">
-          <h2 className="text-2xl font-semibold mb-4">Envoyer une Question</h2>
-          <textarea
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
-            className="w-full px-4 py-2 border rounded"
-            placeholder="Posez votre question..."
-          ></textarea>
-          <button
-            onClick={envoyerQuestion}
-            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
-          >
-            {loading ? "Envoi..." : "Envoyer"}
-          </button>
-          {messageEnvoye && <p className="mt-4 text-green-600">{messageEnvoye}</p>}
-        </div>
-
-        <div className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-2xl font-semibold mb-4">Questions envoyées</h2>
-          {questions.map((q) => (
-            <div key={q.id} className="mb-4 border-b pb-4">
-              <p><strong>Question :</strong> {q.question}</p>
-              {editId === q.id ? (
-                <div>
-                  <textarea
-                    value={editedText}
-                    onChange={(e) => setEditedText(e.target.value)}
-                    className="w-full px-4 py-2 border rounded mt-2"
-                  ></textarea>
-                  <button
-                    onClick={() => modifierQuestion(q.id)}
-                    className="mt-2 bg-green-500 text-white px-4 py-2 rounded"
-                  >
-                    Valider
-                  </button>
-                  <button
-                    onClick={() => setEditId(null)}
-                    className="ml-2 mt-2 bg-gray-500 text-white px-4 py-2 rounded"
-                  >
-                    Annuler
-                  </button>
-                </div>
-              ) : deleteId === q.id ? (
-                <div>
-                  <p className="text-red-600">Confirmer la suppression ?</p>
-                  <button
-                    onClick={() => supprimerQuestion(q.id)}
-                    className="bg-red-500 text-white px-4 py-2 rounded"
-                  >
-                    Oui
-                  </button>
-                  <button
-                    onClick={() => setDeleteId(null)}
-                    className="ml-2 bg-gray-500 text-white px-4 py-2 rounded"
-                  >
-                    Non
-                  </button>
-                </div>
-              ) : (
-                <div>
-                  <button
-                    onClick={() => {
-                      setEditId(q.id);
-                      setEditedText(q.question);
-                    }}
-                    className="mr-4 text-blue-500 hover:underline"
-                  >
-                    Modifier
-                  </button>
-                  <button
-                    onClick={() => setDeleteId(q.id)}
-                    className="text-red-500 hover:underline"
-                  >
-                    Supprimer
-                  </button>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
       </div>
     </div>
   );

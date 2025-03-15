@@ -1,476 +1,241 @@
-// import React, { useState, useEffect } from "react";
-// import { Link } from "react-router-dom";
-// import { getAuth } from "firebase/auth";
-// import {
-//   collection,
-//   getDocs,
-//   addDoc,
-//   updateDoc,
-//   deleteDoc,
-//   doc,
-// } from "firebase/firestore";
-// import { getMessaging, onMessage } from "firebase/messaging"; // Import FCM
-// import { db } from "../firebase-config";
 
-// const TableauEleve = () => {
-//   const [eleves, setEleves] = useState([]);
-//   const [question, setQuestion] = useState("");
-//   const [notifications, setNotifications] = useState([]);
-//   const [isLoading, setIsLoading] = useState(true);
-//   const [isSubmitting, setIsSubmitting] = useState(false);
-//   const [successMessage, setSuccessMessage] = useState("");
-//   const [editingQuestion, setEditingQuestion] = useState(null);
-//   const [fcmMessages, setFcmMessages] = useState([]); // Pour les notifications FCM
+          
 
-//   useEffect(() => {
-//     const fetchEleveConnecte = async () => {
-//       const auth = getAuth();
-//       const utilisateurConnecte = auth.currentUser;
-
-//       if (utilisateurConnecte) {
-//         try {
-//           const querySnapshot = await getDocs(collection(db, "utilisateurs"));
-//           const eleveConnecte = querySnapshot.docs
-//             .map((doc) => ({ id: doc.id, ...doc.data() }))
-//             .find((eleve) => eleve.id === utilisateurConnecte.uid);
-
-//           if (eleveConnecte) {
-//             setEleves([eleveConnecte]);
-//           } else {
-//             console.warn("Aucun élève trouvé pour cet utilisateur.");
-//           }
-//         } catch (error) {
-//           console.error("Erreur lors de la récupération des données :", error);
-//         } finally {
-//           setIsLoading(false);
-//         }
-//       } else {
-//         console.warn("Aucun utilisateur connecté.");
-//         setIsLoading(false);
-//       }
-//     };
-
-//     const fetchQuestions = async () => {
-//       try {
-//         const querySnapshot = await getDocs(collection(db, "questions"));
-//         const fetchedQuestions = querySnapshot.docs.map((doc) => ({
-//           id: doc.id,
-//           ...doc.data(),
-//         }));
-//         setNotifications(fetchedQuestions);
-//       } catch (error) {
-//         console.error("Erreur lors de la récupération des questions :", error);
-//       }
-//     };
-
-//     const setupFCMListener = () => {
-//       const messaging = getMessaging();
-//       onMessage(messaging, (payload) => {
-//         console.log("Message reçu : ", payload);
-//         setFcmMessages((prev) => [...prev, payload.notification]);
-//       });
-//     };
-
-//     fetchEleveConnecte();
-//     fetchQuestions();
-//     setupFCMListener();
-//   }, []);
-
-//   const ajouterQuestion = async () => {
-//     if (question.trim() !== "") {
-//       setIsSubmitting(true);
-//       try {
-//         if (editingQuestion) {
-//           const questionDoc = doc(db, "questions", editingQuestion.id);
-//           await updateDoc(questionDoc, { question });
-//           setNotifications((prev) =>
-//             prev.map((notif) =>
-//               notif.id === editingQuestion.id ? { ...notif, question } : notif
-//             )
-//           );
-//           setSuccessMessage("La question a été mise à jour avec succès !");
-//         } else {
-//           const newQuestionRef = await addDoc(collection(db, "questions"), {
-//             question,
-//             eleveId: eleves[0]?.id,
-//             date: new Date(),
-//           });
-//           setNotifications((prev) => [
-//             ...prev,
-//             { id: newQuestionRef.id, question, date: new Date() },
-//           ]);
-//           setSuccessMessage("Votre question a été envoyée avec succès !");
-//         }
-
-//         setQuestion("");
-//         setEditingQuestion(null);
-//         setTimeout(() => setSuccessMessage(""), 3000);
-//       } catch (error) {
-//         console.error("Erreur lors de l'envoi de la question :", error);
-//       } finally {
-//         setIsSubmitting(false);
-//       }
-//     } else {
-//       console.warn("Veuillez entrer une question valide.");
-//     }
-//   };
-
-//   const supprimerQuestion = async (id) => {
-//     try {
-//       const questionDoc = doc(db, "questions", id);
-//       await deleteDoc(questionDoc);
-//       setNotifications((prev) => prev.filter((notif) => notif.id !== id));
-//       setSuccessMessage("La question a été supprimée avec succès !");
-//       setTimeout(() => setSuccessMessage(""), 3000);
-//     } catch (error) {
-//       console.error("Erreur lors de la suppression de la question :", error);
-//     }
-//   };
-
-//   const preparerEdition = (notif) => {
-//     setQuestion(notif.question);
-//     setEditingQuestion(notif);
-//   };
-
-//   if (isLoading) {
-//     return (
-//       <div className="flex justify-center items-center h-screen">
-//         <div className="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-stone-500"></div>
-//         <p className="ml-4 text-2xl font-bold text-stone-500">Chargement...</p>
-//       </div>
-//     );
-//   }
-
-//   return (
-//     <div className="pt-[10rem] pb-[2rem] bg-stone-100">
-//       <div className="container mx-auto px-4">
-//         <h1 className="mb-[3rem] text-center text-2xl font-extrabold underline">
-//           Tableau de l'élève
-//         </h1>
-//         <div className="grid md:grid-cols-2 gap-10">
-//           {/* Profil de l'élève */}
-//           <div className="bg-stone-200 shadow-md p-4">
-//             <h1 className="text-2xl font-semibold mb-2">Profil de l'élève</h1>
-//             {eleves.length > 0 ? (
-//               eleves.map((eleve) => (
-//                 <div key={eleve.id}>
-//                   <h3>Nom : {eleve.nom}</h3>
-//                   <p>Prenom : {eleve.prenom}</p>
-//                   <p>Classe de l'élève : {eleve.classe}</p>
-//                   <p>Examen a presenter : {eleve.examen}</p>
-//                   <p>Quatier : {eleve.quatier}</p>
-//                   <br />
-//                   <Link to='/EncadreurEleve' className="text-white bg-slate-600 hover:bg-slate-800 p-3 rounded-lg text-center">TABLEAU QUESTIONS</Link>
-
-//                 </div>
-//               ))
-//             ) : (
-//               <p>Aucun élève connecté trouvé.</p>
-//             )}
-//           </div>
-
-//           {/* Poser une question */}
-//           <div className="bg-stone-200 shadow-md p-4">
-//             <h2>{editingQuestion ? "Modifier une question" : "Poser une question"}</h2>
-//             <textarea
-//               value={question}
-//               onChange={(e) => setQuestion(e.target.value)}
-//               placeholder="Entrez votre question"
-//               className="w-full h-32 p-3 border rounded focus:outline-none focus:ring-2 resize-none"
-//               disabled={isSubmitting}
-//             />
-//             <button
-//               onClick={ajouterQuestion}
-//               className={`mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded ${
-//                 isSubmitting ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-600"
-//               }`}
-//             >
-//               {isSubmitting
-//                 ? "Envoi en cours..."
-//                 : editingQuestion
-//                 ? "Mettre à jour"
-//                 : "Envoyer"}
-//             </button>
-//             {successMessage && (
-//               <div className="mt-4 text-green-600">{successMessage}</div>
-//             )}
-
-//             {notifications.map((notif) => (
-//               <div
-//                 key={notif.id}
-//                 className="mt-4 p-2 border rounded bg-white"
-//               >
-//                 <p>
-//                   <strong>Question :</strong> {notif.question}
-//                 </p>
-//                 <div className="flex gap-2 mt-2">
-//                   <button
-//                     onClick={() => preparerEdition(notif)}
-//                     className="bg-yellow-500 text-white py-1 px-3 rounded"
-//                   >
-//                     Éditer
-//                   </button>
-//                   <button
-//                     onClick={() => supprimerQuestion(notif.id)}
-//                     className="bg-red-500 text-white py-1 px-3 rounded"
-//                   >
-//                     Supprimer
-//                   </button>
-//                 </div>
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-
-//         {/* Zone de notification */}
-//         <div className="mt-10 bg-stone-200 shadow-md p-4">
-//           <h2 className="text-2xl font-bold">Notifications</h2>
-//           {fcmMessages.length > 0 ? (
-//             fcmMessages.map((msg, index) => (
-//               <div key={index} className="mt-2 p-2 border rounded bg-white">
-//                 <p>
-//                   <strong>{msg.title}</strong>: {msg.body}
-//                 </p>
-//               </div>
-//             ))
-//           ) : (
-//             <p>Aucune notification pour le moment.</p>
-//           )}
-//         </div>
-
-//       </div>
-
-//     </div>
-//   );
-// };
-
-// export default TableauEleve;
-
-
-
-       
-                
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import {
   collection,
-  getDocs,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
   query,
   where,
+  onSnapshot,
+  doc,
+  getDoc,
+  deleteDoc,
+  addDoc,
 } from "firebase/firestore";
 import { db } from "../firebase-config";
+import { useNavigate } from "react-router-dom";
 
-const TableauEleve = () => {
-  const [eleves, setEleves] = useState([]);
-  const [question, setQuestion] = useState("");
-  const [notifications, setNotifications] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [editingQuestion, setEditingQuestion] = useState(null);
+const PageEleve = () => {
+  const [user, setUser] = useState(null); // Informations de l'élève
+  const [messages, setMessages] = useState([]); // Liste des messages reçus
+  const [selectedUser, setSelectedUser] = useState(null); // Utilisateur sélectionné pour la messagerie
+  const [messageText, setMessageText] = useState(""); // Texte du message direct
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchEleveConnecte = async () => {
-      const auth = getAuth();
-      const utilisateurConnecte = auth.currentUser;
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
 
-      if (utilisateurConnecte) {
-        try {
-          const querySnapshot = await getDocs(collection(db, "utilisateurs"));
-          const eleveConnecte = querySnapshot.docs
-            .map((doc) => ({ id: doc.id, ...doc.data() }))
-            .find((eleve) => eleve.id === utilisateurConnecte.uid);
+    if (currentUser) {
+      console.log("ID de l'utilisateur connecté :", currentUser.uid);
 
-          if (eleveConnecte) {
-            setEleves([eleveConnecte]);
+      // Récupérer les informations de l'utilisateur connecté
+      const userDocRef = doc(db, "utilisateurs", currentUser.uid);
+      getDoc(userDocRef)
+        .then((doc) => {
+          if (doc.exists()) {
+            setUser(doc.data()); // Mettre à jour l'état avec les informations de l'utilisateur
           } else {
-            console.warn("Aucun élève trouvé pour cet utilisateur.");
+            console.error("Aucun document utilisateur trouvé pour cet ID.");
           }
-        } catch (error) {
-          console.error("Erreur lors de la récupération des données :", error);
-        } finally {
-          setIsLoading(false);
-        }
-      } else {
-        console.warn("Aucun utilisateur connecté.");
-        setIsLoading(false);
-      }
-    };
+        })
+        .catch((error) => {
+          console.error("Erreur lors de la récupération des informations de l'utilisateur :", error);
+        });
 
-    const fetchQuestions = async () => {
-      try {
-        const q = query(collection(db, "questions"), where("role", "==", "eleve"));
-        const querySnapshot = await getDocs(q);
-        const fetchedQuestions = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setNotifications(fetchedQuestions);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des questions :", error);
-      }
-    };
+      // Charger les messages reçus par l'élève
+      const q = query(collection(db, "messages"), where("to", "==", currentUser.uid));
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        console.log("Nombre de messages reçus :", snapshot.docs.length);
+        const fetchedMessages = snapshot.docs.map((doc) => {
+          const messageData = doc.data();
+          console.log("Message reçu :", messageData);
 
-    fetchEleveConnecte();
-    fetchQuestions();
+          return {
+            id: doc.id,
+            ...messageData,
+            // Les informations de l'expéditeur sont déjà incluses dans le message
+            senderName: messageData.senderName || "Anonyme",
+            senderRole: messageData.senderRole || "Inconnu",
+          };
+        });
+        setMessages(fetchedMessages);
+        console.log("Messages dans l'état :", fetchedMessages);
+      });
+
+      return unsubscribe;
+    }
   }, []);
 
-  const ajouterQuestion = async () => {
-    if (question.trim() !== "") {
-      setIsSubmitting(true);
-      try {
-        if (editingQuestion) {
-          const questionDoc = doc(db, "questions", editingQuestion.id);
-          await updateDoc(questionDoc, { question });
-          setNotifications((prev) =>
-            prev.map((notif) =>
-              notif.id === editingQuestion.id ? { ...notif, question } : notif
-            )
-          );
-          setSuccessMessage("La question a été mise à jour avec succès !");
-        } else {
-          const newQuestionRef = await addDoc(collection(db, "questions"), {
-            question,
-            eleveId: eleves[0]?.id,
-            date: new Date(),
-            role: "eleve", // Ajoutez ce champ
-          });
-          setNotifications((prev) => [
-            ...prev,
-            { id: newQuestionRef.id, question, date: new Date(), role: "eleve" },
-          ]);
-          setSuccessMessage("Votre question a été envoyée avec succès !");
-        }
-
-        setQuestion("");
-        setEditingQuestion(null);
-        setTimeout(() => setSuccessMessage(""), 3000);
-      } catch (error) {
-        console.error("Erreur lors de l'envoi de la question :", error);
-      } finally {
-        setIsSubmitting(false);
-      }
-    } else {
-      console.warn("Veuillez entrer une question valide.");
-    }
-  };
-
-  const supprimerQuestion = async (id) => {
+  // Supprimer un message
+  const deleteMessage = async (messageId) => {
     try {
-      const questionDoc = doc(db, "questions", id);
-      await deleteDoc(questionDoc);
-      setNotifications((prev) => prev.filter((notif) => notif.id !== id));
-      setSuccessMessage("La question a été supprimée avec succès !");
-      setTimeout(() => setSuccessMessage(""), 3000);
+      await deleteDoc(doc(db, "messages", messageId));
+      setMessages(messages.filter((message) => message.id !== messageId));
+      alert("Message supprimé avec succès !");
     } catch (error) {
-      console.error("Erreur lors de la suppression de la question :", error);
+      console.error("Erreur lors de la suppression du message :", error);
     }
   };
 
-  const preparerEdition = (notif) => {
-    setQuestion(notif.question);
-    setEditingQuestion(notif);
+
+
+  const sendMessage = async () => {
+    if (messageText.trim() !== "") {
+      try {
+        const auth = getAuth();
+        const currentUser = auth.currentUser;
+  
+        // Récupérer les informations de l'utilisateur connecté depuis Firestore
+        const userDocRef = doc(db, "utilisateurs", currentUser.uid);
+        const userDoc = await getDoc(userDocRef);
+  
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+  
+          // Ajouter le message avec les informations de l'expéditeur
+          await addDoc(collection(db, "messages"), {
+            from: currentUser.uid, // ID de l'expéditeur
+            to: selectedUser.userId, // ID du destinataire
+            text: messageText, // Texte du message
+            date: new Date(), // Date du message
+            senderName: `${userData.nom} ${userData.prenom}`, // Nom complet de l'expéditeur
+            senderRole: userData.role, // Rôle de l'expéditeur
+          });
+  
+          // Réinitialiser le champ de texte et fermer la pop-up
+          setMessageText("");
+          setSelectedUser(null);
+          alert("Message envoyé avec succès !");
+        } else {
+          console.error("Utilisateur non trouvé dans Firestore.");
+        }
+      } catch (error) {
+        console.error("Erreur lors de l'envoi du message :", error);
+      }
+    }
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-stone-500"></div>
-        <p className="ml-4 text-2xl font-bold text-stone-500">Chargement...</p>
-      </div>
-    );
-  }
+
+  // Redirection vers les forums
+  const goToForumElevesEncadreurs = () => {
+    navigate("/EleveEncadreur");
+  };
+
+  const goToForumElevesParents = () => {
+    navigate("/forum-eleves-parents");
+  };
 
   return (
-    <div className="pt-[10rem] pb-[2rem] bg-stone-100">
+    <div className="pt-[10rem] pb-[2rem] bg-purple-50 min-h-screen">
       <div className="container mx-auto px-4">
-        <h1 className="mb-[3rem] text-center text-2xl font-extrabold underline">
-          Tableau de l'élève
-        </h1>
-        <div className="grid md:grid-cols-2 gap-10">
-          {/* Profil de l'élève */}
-          <div className="bg-stone-200 shadow-md p-4">
-            <h1 className="text-2xl font-semibold mb-2">Profil de l'élève</h1>
-            {eleves.length > 0 ? (
-              eleves.map((eleve) => (
-                <div key={eleve.id}>
-                  <h3>Nom : {eleve.nom}</h3>
-                  <p>Prenom : {eleve.prenom}</p>
-                  <p>Classe de l'élève : {eleve.classe}</p>
-                  <p>Examen a presenter : {eleve.examen}</p>
-                  <p>Quatier : {eleve.quatier}</p>
-                  <br />
-                  <Link to='/EncadreurEleve' className="text-white bg-slate-600 hover:bg-slate-800 p-3 rounded-lg text-center">TABLEAU QUESTIONS</Link>
-                </div>
-              ))
-            ) : (
-              <p>Aucun élève connecté trouvé.</p>
-            )}
-          </div>
-
-          {/* Poser une question */}
-          <div className="bg-stone-200 shadow-md p-4">
-            <h2>{editingQuestion ? "Modifier une question" : "Poser une question"}</h2>
-            <textarea
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              placeholder="Entrez votre question"
-              className="w-full h-32 p-3 border rounded focus:outline-none focus:ring-2 resize-none"
-              disabled={isSubmitting}
-            />
+        {/* Section Profil de l'élève */}
+        <div className="bg-white shadow-md rounded-lg p-6 mb-8">
+          <h1 className="text-2xl font-bold text-purple-800 mb-4">Profil de l'élève</h1>
+          {user ? (
+            <div>
+              <p className="text-gray-700"><strong>Nom :</strong> {user.nom} {user.prenom}</p>
+              <p className="text-gray-700"><strong>Email :</strong> {user.email}</p>
+              <p className="text-gray-700"><strong>Rôle :</strong> {user.role}</p>
+            </div>
+          ) : (
+            <p>Chargement du profil...</p>
+          )}
+          <div className="mt-4 flex space-x-4">
             <button
-              onClick={ajouterQuestion}
-              className={`mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded ${
-                isSubmitting ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-600"
-              }`}
+              onClick={goToForumElevesEncadreurs}
+              className="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition duration-300"
             >
-              {isSubmitting
-                ? "Envoi en cours..."
-                : editingQuestion
-                ? "Mettre à jour"
-                : "Envoyer"}
+              Forum Élèves-Encadreurs
             </button>
-            {successMessage && (
-              <div className="mt-4 text-green-600">{successMessage}</div>
-            )}
-
-            {notifications.map((notif) => (
-              <div
-                key={notif.id}
-                className="mt-4 p-2 border rounded bg-white"
-              >
-                <p>
-                  <strong>Question :</strong> {notif.question}
-                </p>
-                <div className="flex gap-2 mt-2">
-                  <button
-                    onClick={() => preparerEdition(notif)}
-                    className="bg-yellow-500 text-white py-1 px-3 rounded"
-                  >
-                    Éditer
-                  </button>
-                  <button
-                    onClick={() => supprimerQuestion(notif.id)}
-                    className="bg-red-500 text-white py-1 px-3 rounded"
-                  >
-                    Supprimer
-                  </button>
-                </div>
-              </div>
-            ))}
+            <button
+              onClick={goToForumElevesParents}
+              className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition duration-300"
+            >
+              Forum Élèves-Parents
+            </button>
           </div>
         </div>
+
+        {/* Section Messages reçus */}
+        <div className="bg-white shadow-md rounded-lg p-6">
+          <h2 className="text-2xl font-bold text-purple-800 mb-4">Messages reçus</h2>
+          {messages.length === 0 ? (
+            <p className="text-gray-700">Aucun message reçu pour le moment.</p>
+          ) : (
+            <div className="space-y-4">
+              {messages.map((message) => (
+                <div key={message.id} className="border-b pb-4">
+                  <p className="text-gray-700">
+                    <strong>De :</strong> {message.senderName}
+                  </p>
+                  <p className="text-gray-700"><strong>Rôle :</strong> {message.senderRole}</p>
+                  <p className="text-gray-700">
+                    <strong>Date :</strong>{" "}
+                    {message.date?.seconds
+                      ? new Date(message.date.seconds * 1000).toLocaleString()
+                      : "Date invalide"}
+                  </p>
+                  <p className="text-gray-700"><strong>Message :</strong> {message.text}</p>
+                  <div className="mt-2 flex space-x-2">
+                    <button
+                      onClick={() => deleteMessage(message.id)}
+                      className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
+                    >
+                      Supprimer
+                    </button>
+                    <button
+                      onClick={() =>
+                        setSelectedUser({
+                          userId: message.from,
+                          userName: message.senderName,
+                        })
+                      }
+                      className="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition duration-300"
+                    >
+                      Répondre
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Pop-up pour envoyer un message direct */}
+        {selectedUser && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div className="bg-white p-6 rounded-lg shadow-md w-96">
+              <h2 className="text-xl font-bold text-gray-800 mb-4">
+                Envoyer un message à {selectedUser.userName}
+              </h2>
+              <textarea
+                className="w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                placeholder="Écrivez votre message ici..."
+                value={messageText}
+                onChange={(e) => setMessageText(e.target.value)}
+              ></textarea>
+              <div className="flex justify-end space-x-2 mt-4">
+                <button
+                  onClick={() => setSelectedUser(null)}
+                  className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600"
+                >
+                  Annuler
+                </button>
+                <button
+                  onClick={sendMessage}
+                  className="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600"
+                >
+                  Envoyer
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default TableauEleve;
-            
-              
-
+export default PageEleve;

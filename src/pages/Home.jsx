@@ -31,7 +31,7 @@ function Home() {
 
   return (
     <div className="home">
-      <div className="hero-content  text-white text-2xl flex justify-center items-center pt-[8rem] pb-[5rem]">
+      <div className="hero-content  text-white text-2xl flex justify-center items-center pt-[5rem] pb-[5rem]">
         <div className="container mx-auto px-4">
           <h2 className='text-5xl font-extrabold py-[2rem]'>Bienvenue au Bureau Lumière &<br /> Commission d'Étude</h2>
           <p className='py-[1rem]'>"Accompagner chaque élève vers l'excellence avec des cours de soutien <br /> personnalisés pour réussir les examens."</p>
@@ -154,26 +154,31 @@ function Home() {
           </div>
         </div>
       </div>
-      <div class="impact-section py-[2rem]">
+      <div class="impact-section py-[3rem]">
         <div className="container mx-auto px-4">
-          <h1 className='font-bold text-5xl py-2'>L'impact positif des cours de soutien sur les enfants</h1>
-          <p>Le Bureau Lumière & Commission Étude s'engage à offrir plus que de simples leçons aux enfants qui participent à nos cours de soutien. Voici comment ces cours contribuent à leur bien-être général :</p>
-          <div className="impact-content mt-14 grid grid-cols-1 gap-10">
-            <div className="impact-detail grid md:grid-cols-2 gap-10">
+          <h1 className='font-bold text-5xl py-2'>L'impact positif des cours de soutien <br /> sur les enfants</h1>
+          <p>Le Bureau Lumière & Commission Étude s'engage à offrir plus que de simples leçons aux enfants qui participent à nos cours de soutien. <br /> Voici comment ces cours contribuent à leur bien-être général :</p>
+          
+          <div className="impact-content mt-[5rem] grid md:grid-cols-2 gap-[5rem]">
+           
+            <div className="impact-detail grid md:grid-cols-1 gap-5  p-5 shadow-xl">
               <div>
                 <h2 className='font-bold text-3xl py-2'>La prière comme fondement spirituel</h2>
                 <p>Ce qui distingue nos cours de soutien des autres, c'est l'importance accordée à la prière. Avant chaque session, les enfants se rassemblent pour un moment de prière collectif, une pratique unique qui nourrit leur âme et renforce leur connexion spirituelle. Cela permet non seulement de commencer les cours avec calme et sérénité, mais aussi d'apporter un soutien moral et une guidance qui favorisent la concentration et la réussite. La prière établit une atmosphère de confiance et d'harmonie, offrant aux enfants un environnement où ils se sentent en sécurité, inspirés et soutenus, tant sur le plan académique que spirituel.</p>
               </div>
               <img src={pray} alt="" className='rounded-2xl' />
             </div>
-            <div className="impact-detail grid md:grid-cols-2 gap-10">
+
+            <div className="impact-detail grid md:grid-cols-1 gap-5  p-5 shadow-xl">
               <img src={bu45} alt="" className='rounded-2xl' />
               <div>
                 <h2 className='font-bold text-3xl py-2'>Confiance en soi améliorée </h2>
+                <p>En travaillant ensemble sur des projets ou en participant à des discussions constructives, les enfants apprennent à exprimer leurs idées, à écouter les autres, et à développer des compétences de gestion des conflits. Ce sont des compétences essentielles qui les accompagneront tout au long de leur vie, aussi bien dans leur parcours scolaire que dans leurs relations personnelles et professionnelles.</p>
                 <p> Les cours de soutien, en plus de leur dimension spirituelle, aident les enfants à surmonter leurs difficultés scolaires en renforçant leur confiance en eux-mêmes. Chaque progrès leur donne la force d'avancer, augmentant leur motivation et leur estime de soi.</p>
               </div>
             </div>
-            <div className="impact-detail grid md:grid-cols-2 gap-10">
+           
+            <div className="impact-detail grid md:grid-cols-1 gap-5 p-5 shadow-xl">
               <div>
                 <h2 className='font-bold text-3xl py-2'>Amélioration des performances scolaires </h2>
                 <p>Avec un soutien régulier, les élèves constatent une amélioration de leurs résultats scolaires. Cette réussite leur procure un sentiment de satisfaction et une plus grande estime de soi.</p>
@@ -181,7 +186,8 @@ function Home() {
               </div>
               <img src={bu42} alt="" className='rounded-2xl' />
             </div>
-            <div className="impact-detail grid md:grid-cols-2 gap-10">
+           
+            <div className="impact-detail grid md:grid-cols-1 gap-5  p-5 shadow-xl">
               <img src={bu40} alt="" className='rounded-2xl' />
               <div>
                 <h2 className='font-bold text-3xl py-2'>Interaction sociale </h2>
