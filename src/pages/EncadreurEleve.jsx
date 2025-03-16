@@ -120,14 +120,6 @@ const PageCommune = () => {
     }
   };
 
-
-
-
-
-
-
-
-
 // Supprimer une question
 const deleteQuestion = async (question) => {
   const auth = getAuth();
@@ -388,9 +380,9 @@ const editQuestion = async (id) => {
                     </ul>
                   </div>
                 )}
-                <div className="mt-2">
+                <div className="mt-4 flex flex-row flex-wrap gap-[1rem]">
                   <button
-                    className="bg-yellow-500 text-white py-1 px-3 rounded mr-2"
+                    className="bg-yellow-500 text-white py-1 px-3 rounded"
                     onClick={() => {
                       setEditingQuestion(question.id);
                       setEditingText(question.question);
@@ -399,7 +391,7 @@ const editQuestion = async (id) => {
                     Modifier
                   </button>
                   <button
-                    className="bg-green-500 text-white py-1 px-3 rounded mr-2"
+                    className="bg-green-500 text-white py-1 px-3 rounded"
                     onClick={() => setReplyingQuestion(question.id)}
                   >
                     Répondre
