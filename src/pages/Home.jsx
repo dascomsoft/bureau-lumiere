@@ -31,9 +31,9 @@ function Home() {
 
   return (
     <div className="home">
-      <div className="hero-content  text-white text-2xl flex justify-center items-center pt-[5rem] pb-[5rem]">
+      <div className="hero-content  text-white text-2xl flex justify-center items-center pt-[6rem] pb-[5rem]">
         <div className="container mx-auto px-4">
-          <h2 className='text-5xl font-extrabold py-[2rem]'>Bienvenue au Bureau Lumière &<br /> Commission d'Étude</h2>
+          <h2 className='text-5xl font-extrabold py-[2rem]'>Bienvenue a Lumière Sante & Vie<br /> Commission d'Étude</h2>
           <p className='py-[1rem]'>"Accompagner chaque élève vers l'excellence avec des cours de soutien <br /> personnalisés pour réussir les examens."</p>
           <p>"Au sein de la Commission Étude, nous visons à approfondir les connaissances de nos apprenants, en alliant savoir académique et éclairage spirituel. Chaque session d’étude est une opportunité d'élargir nos horizons intellectuels tout en restant ancrés dans les valeurs de foi, de recherche de vérité et de sagesse divine."</p>
           <br /><br />
@@ -70,7 +70,7 @@ function Home() {
       </div>
       <div className="staff-section py-[3rem]">
         <div className="container mx-auto px-4">
-          <h1 className='font-extrabold text-3xl mb-[4rem] text-center'>Bureau De La Commission Etude Du <br /> Bureau Lumiere(Annee 2024/2025)</h1>
+          <h1 className='font-extrabold text-3xl mb-[4rem] text-center'>Bureau De La Commission Etude De <br /> Lumiere Sante & Vie(Annee 2024/2025)</h1>
           <div className="mb-[100px] p-6 flex items-center flex-col">
             <img src={pro} id="proImage" alt="" />
             <div className='text-center mt-10'>
@@ -157,7 +157,7 @@ function Home() {
       <div class="impact-section py-[3rem]">
         <div className="container mx-auto px-4">
           <h1 className='font-bold text-5xl py-2'>L'impact positif des cours de soutien <br /> sur les enfants</h1>
-          <p>Le Bureau Lumière & Commission Étude s'engage à offrir plus que de simples leçons aux enfants qui participent à nos cours de soutien. <br /> Voici comment ces cours contribuent à leur bien-être général :</p>
+          <p>Lumiere Sante & vie - Commission Étude s'engage à offrir plus que de simples leçons aux enfants qui participent à nos cours de soutien. <br /> Voici comment ces cours contribuent à leur bien-être général :</p>
           
           <div className="impact-content mt-[5rem] grid md:grid-cols-2 gap-[5rem]">
            

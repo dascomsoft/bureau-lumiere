@@ -51,10 +51,13 @@ const Navbar = ({ user }) => {
     setCompte(!compte);
   };
 
-  // Fonction pour gérer la redirection en fonction du rôle
-  const handleProfileRedirect = () => {
-    if (!user) return; // Si l'utilisateur n'est pas connecté, ne rien faire
 
+  const handleProfileRedirect = () => {
+    if (!user || !user.role) {
+      navigate('/'); // Rediriger vers la page d'accueil si l'utilisateur ou le rôle est manquant
+      return;
+    }
+  
     // Logique pour rediriger selon le rôle
     switch (user.role) {
       case "eleve":
@@ -67,8 +70,7 @@ const Navbar = ({ user }) => {
         navigate("/TableauEncadreur");
         break;
       default:
-        // Si le rôle est inconnu ou non défini, rediriger vers la page d'accueil ou autre
-        navigate("/");
+        navigate("/"); // Rediriger vers la page d'accueil si le rôle est inconnu
         break;
     }
   };
@@ -78,7 +80,7 @@ const Navbar = ({ user }) => {
     setCompte(true)
   }
 
-  const closeCompte = () => {
+  const profileAccount = () => {
     handleProfileRedirect();
     changeCompte();
 
@@ -93,7 +95,7 @@ const Navbar = ({ user }) => {
 
   const updateMobileNav = () =>{
     handleLinkClick();
-    toggleInscription()
+    handleCompte()
   }
 
 
@@ -106,7 +108,7 @@ const Navbar = ({ user }) => {
           <header>
             <Link className="logo" to="/">
               <h2 className="font-bold text-3xl">
-                BL<span className="text-yellow-300">Assist</span>
+                LSV<span className="text-yellow-300">Assist</span>
               </h2>
             </Link>
             <div className="navleft" id={openLinks ? "open" : "close"}>
@@ -134,7 +136,7 @@ const Navbar = ({ user }) => {
                   <Link onClick={handleLinkClick} className="head-link cursor-pointer text-green-400 font-extrabold" to="/ProfilEncadreur">
                     Profils Encadreurs
                   </Link>
-                  <p onClick={handleCompte} className="cursor-pointer text-yellow-300 font-extrabold">Mon Compte</p>
+                  <p onClick={updateMobileNav} className="cursor-pointer text-yellow-300 font-extrabold">Mon Compte</p>
 
                 </>
               ) : (
@@ -242,7 +244,7 @@ const Navbar = ({ user }) => {
         <div className="detailCompte bg-white p-10 rounded-md">
           <h1 className="font-bold text-xl">Compte utilisateur</h1>
           <div className="flex flex-wrap gap-5 mt-5">
-            <button className="bg-red-600 text-white px-5 py-2 rounded-full" onClick={closeCompte} >Mon profil</button>
+            <button className="bg-red-600 text-white px-5 py-2 rounded-full" onClick={profileAccount} >Mon profil</button>
             <Link to='/' className="bg-green-600 text-white px-5 py-2 rounded-full" onClick={updateSignOut}>Deconnection</Link>
             <button className="bg-black text-white px-5 py-2 rounded-full" onClick={changeCompte} >Close</button>
 
