@@ -95,9 +95,13 @@ const Navbar = ({ user }) => {
 
   const updateMobileNav = () =>{
     handleLinkClick();
-    handleCompte()
+    toggleInscription()
   }
 
+  const mobileProfile =()=>{
+    handleLinkClick();
+    handleCompte()
+  }
 
 
 
@@ -136,7 +140,7 @@ const Navbar = ({ user }) => {
                   <Link onClick={handleLinkClick} className="head-link cursor-pointer text-green-400 font-extrabold" to="/ProfilEncadreur">
                     Profils Encadreurs
                   </Link>
-                  <p onClick={updateMobileNav} className="cursor-pointer text-yellow-300 font-extrabold">Mon Compte</p>
+                  <p onClick={mobileProfile} className="cursor-pointer text-yellow-300 font-extrabold">Mon Compte</p>
 
                 </>
               ) : (

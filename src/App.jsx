@@ -70,7 +70,7 @@ function App() {
 
   // Afficher un indicateur de chargement pendant que Firebase vérifie l'état de connexion
   if (loading) {
-    return <div className="text-2xl font-extrabold flex mt-[20rem] justify-center">Chargement...</div>;
+    return <div className="text-2xl font-extrabold flex mt-[10rem] justify-center">Chargement...</div>;
   }
 
   return (
