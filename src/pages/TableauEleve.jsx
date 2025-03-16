@@ -120,11 +120,11 @@ const PageEleve = () => {
 
   // Redirection vers les forums
   const goToForumElevesEncadreurs = () => {
-    navigate("/EleveEncadreur");
+    navigate("/EncadreurEleve");
   };
 
   const goToForumElevesParents = () => {
-    navigate("/forum-eleves-parents");
+    navigate("/ParentEncadreur");
   };
 
   return (

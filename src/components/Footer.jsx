@@ -14,10 +14,6 @@ const Footer = () => {
                             <p><Link className="hover:text-red-500"  to="/Encadreurs">Encadreurs</Link></p>
                             <p><Link className="hover:text-red-500" to="/Blog">Blog</Link></p>
                             <p><Link className="hover:text-red-500"  to="/Login">Connection</Link></p>
-                            <p><Link className="hover:text-red-500"  to="/Inscription">Inscription</Link></p>
-                            <p><Link className="hover:text-red-500"  to="/Contact">Contact</Link></p>
-
-
                         </div>
                         <div className="footer-detail">
                             <h5 className="font-extrabold text-2xl mb-3">ACTIVITES</h5>
