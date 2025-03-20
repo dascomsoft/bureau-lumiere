@@ -31,18 +31,18 @@ function Home() {
 
   return (
     <div className="home">
-      <div className="hero-content  text-white text-2xl flex justify-center items-center pt-[6rem] pb-[5rem]">
+      <div className="hero-content  text-white flex justify-center items-center pt-[6rem] pb-[3rem]">
         <div className="container mx-auto px-4">
-          <h2 className='text-5xl font-extrabold py-[2rem]'>Bienvenue a Lumière Sante & Vie<br /> Commission d'Étude</h2>
+          <h2 className='text-3xl font-extrabold py-[2rem]'>Bienvenue a Lumière Sante & Vie Commission d'Étude</h2>
           <p className='py-[1rem]'>"Accompagner chaque élève vers l'excellence avec des cours de soutien <br /> personnalisés pour réussir les examens."</p>
           <p>"Au sein de la Commission Étude, nous visons à approfondir les connaissances de nos apprenants, en alliant savoir académique et éclairage spirituel. Chaque session d’étude est une opportunité d'élargir nos horizons intellectuels tout en restant ancrés dans les valeurs de foi, de recherche de vérité et de sagesse divine."</p>
           <br /><br />
-          <Link to="/blog" className=' bg-yellow-300 hover:bg-white hover:text-black text-black px-12 py-3 rounded-full'>En Savoir Plus</Link>
+          <Link to="/blog" className=' bg-yellow-300 hover:bg-white hover:text-black text-black px-10 py-2 rounded-full'>En Savoir Plus</Link>
         </div>
       </div>
       <div className="devise-section py-[4rem] bg-stone-200">
         <div className="container mx-auto px-4">
-          <h1 className='font-extrabold text-5xl mb-[4rem]'>Notre Device</h1>
+          <h1 className='font-extrabold text-3xl mb-[4rem]'>Notre Device</h1>
           <div className="device-content grid md:grid-cols-2 lg:grid-cols-3 gap-10">
             <div className="shadow-lg p-4 ">
               <svg width="80px" height="80px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="#000000"><path fill-rule="evenodd" clip-rule="evenodd" d="M14.5 2H9l-.35.15-.65.64-.65-.64L7 2H1.5l-.5.5v10l.5.5h5.29l.86.85h.7l.86-.85h5.29l.5-.5v-10l-.5-.5zm-7 10.32l-.18-.17L7 12H2V3h4.79l.74.74-.03 8.58zM14 12H9l-.35.15-.14.13V3.7l.7-.7H14v9zM6 5H3v1h3V5zm0 4H3v1h3V9zM3 7h3v1H3V7zm10-2h-3v1h3V5zm-3 2h3v1h-3V7zm0 2h3v1h-3V9z" /></svg>
@@ -75,7 +75,7 @@ function Home() {
             <img src={pro} id="proImage" alt="" />
             <div className='text-center mt-10'>
               <h1 className='font-bold text-xl py-2'>Prophétesse Maman Marie Lumiere</h1>
-              <h2 className='font-semibold'>Marraine de la commission étude</h2>
+              <h2 className='font-semibold'>Coordinatrice de la commission étude</h2>
             </div>
           </div>
           <div className="staff-content grid md:grid-cols-2 lg:grid-cols-3 gap-10">
@@ -156,14 +156,14 @@ function Home() {
       </div>
       <div class="impact-section py-[3rem]">
         <div className="container mx-auto px-4">
-          <h1 className='font-bold text-5xl py-2'>L'impact positif des cours de soutien <br /> sur les enfants</h1>
+          <h1 className='font-bold text-3xl py-2'>L'impact positif des cours de soutien <br /> sur les enfants</h1>
           <p>Lumiere Sante & vie - Commission Étude s'engage à offrir plus que de simples leçons aux enfants qui participent à nos cours de soutien. <br /> Voici comment ces cours contribuent à leur bien-être général :</p>
           
           <div className="impact-content mt-[5rem] grid md:grid-cols-2 gap-[5rem]">
            
             <div className="impact-detail grid md:grid-cols-1 gap-5  p-5 shadow-xl">
               <div>
-                <h2 className='font-bold text-3xl py-2'>La prière comme fondement spirituel</h2>
+                <h2 className='font-bold text-2xl py-2'>La prière comme fondement spirituel</h2>
                 <p>Ce qui distingue nos cours de soutien des autres, c'est l'importance accordée à la prière. Avant chaque session, les enfants se rassemblent pour un moment de prière collectif, une pratique unique qui nourrit leur âme et renforce leur connexion spirituelle. Cela permet non seulement de commencer les cours avec calme et sérénité, mais aussi d'apporter un soutien moral et une guidance qui favorisent la concentration et la réussite. La prière établit une atmosphère de confiance et d'harmonie, offrant aux enfants un environnement où ils se sentent en sécurité, inspirés et soutenus, tant sur le plan académique que spirituel.</p>
               </div>
               <img src={pray} alt="" className='rounded-2xl' />
@@ -172,7 +172,7 @@ function Home() {
             <div className="impact-detail grid md:grid-cols-1 gap-5  p-5 shadow-xl">
               <img src={bu45} alt="" className='rounded-2xl' />
               <div>
-                <h2 className='font-bold text-3xl py-2'>Confiance en soi améliorée </h2>
+                <h2 className='font-bold text-2xl py-2'>Confiance en soi améliorée </h2>
                 <p>En travaillant ensemble sur des projets ou en participant à des discussions constructives, les enfants apprennent à exprimer leurs idées, à écouter les autres, et à développer des compétences de gestion des conflits. Ce sont des compétences essentielles qui les accompagneront tout au long de leur vie, aussi bien dans leur parcours scolaire que dans leurs relations personnelles et professionnelles.</p>
                 <p> Les cours de soutien, en plus de leur dimension spirituelle, aident les enfants à surmonter leurs difficultés scolaires en renforçant leur confiance en eux-mêmes. Chaque progrès leur donne la force d'avancer, augmentant leur motivation et leur estime de soi.</p>
               </div>
@@ -180,7 +180,7 @@ function Home() {
            
             <div className="impact-detail grid md:grid-cols-1 gap-5 p-5 shadow-xl">
               <div>
-                <h2 className='font-bold text-3xl py-2'>Amélioration des performances scolaires </h2>
+                <h2 className='font-bold text-2xl py-2'>Amélioration des performances scolaires </h2>
                 <p>Avec un soutien régulier, les élèves constatent une amélioration de leurs résultats scolaires. Cette réussite leur procure un sentiment de satisfaction et une plus grande estime de soi.</p>
                 <p>À travers la prière et les moments de partage, les enfants développent un fort sentiment d'appartenance et de soutien mutuel. Cela contribue à leur bien-être émotionnel et les aide à développer des valeurs de respect, de solidarité et de persévérance.</p>
               </div>
@@ -190,10 +190,10 @@ function Home() {
             <div className="impact-detail grid md:grid-cols-1 gap-5  p-5 shadow-xl">
               <img src={bu40} alt="" className='rounded-2xl' />
               <div>
-                <h2 className='font-bold text-3xl py-2'>Interaction sociale </h2>
+                <h2 className='font-bold text-2xl py-2'>Interaction sociale </h2>
                 <p>Les cours de soutien en groupe permettent aux enfants de socialiser avec leurs pairs. Ils peuvent échanger des idées, travailler en équipe et développer leurs compétences en communication, créant ainsi un environnement joyeux et stimulant.</p>
                 <br />
-                <h2 className='font-bold text-3xl py-2'>Soutien émotionnel </h2>
+                <h2 className='font-bold text-2xl py-2'>Soutien émotionnel </h2>
                 <p>Nos enseignants offrent non seulement un soutien académique, mais aussi émotionnel. Les encouragements qu'ils reçoivent contribuent à réduire l'anxiété liée à l'école et à favoriser une attitude positive envers l'apprentissage.</p>
               </div>
             </div>
@@ -203,7 +203,7 @@ function Home() {
       <div class="blog-section py-[5rem]">
         <div class="container mx-auto px-4">
           <div class="blog-header text-center py-[2rem]">
-            <h3 class="font-extrabold text-4xl">NOS DIFFERENTS BLOGS</h3>
+            <h3 class="font-extrabold text-2xl">NOS DIFFERENTS BLOGS</h3>
             <p className='py-[1rem] text-2xl'>Maximiser le Potentiel de Chaque Élève avec le Soutien Académique!</p>
           </div>
           <div class="blog-container mt-5 grid md:grid-cols-2 lg:grid-cols-3 gap-10">
@@ -309,7 +309,7 @@ function Home() {
       </div>
       <div className="section-notification py-[7rem]">
         <div className="container mx-auto px-4">
-          <h1 className='text-3xl font-extrabold text-white'>Bureau Lumière & Commission Étude</h1>
+          <h1 className='text-3xl font-extrabold text-white'>Lumière Sante et Vie & Commission Étude</h1>
           <p className='py-[1rem] text-white font-semibold'>Un environnement idéal pour l'épanouissement académique et spirituel de vos enfants. <br /> Offrez-leur un suivi personnalisé qui les prépare pour un avenir brillant, tout en nourrissant leur esprit et leur savoir.</p>
           <br />
           <Link to="/encadreurs" className='px-12 py-3 bg-white text-black rounded-full'>En savoir plus</Link>

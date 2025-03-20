@@ -11,8 +11,8 @@ const Blog2 = () => {
     return (
         <div className='main-blog2 bg-stone-300 pb-[4rem]'>
             <div className='container mx-auto px-4'>
-                <div className='pt-[10rem]'>
-                    <h1 className='text-3xl font-extrabold pb-[4rem]'>Maximiser le Potentiel de Chaque Élève avec le Soutien Académique</h1>
+                <div className='pt-[8rem]'>
+                    <h1 className='text-2xl font-extrabold pb-[2rem]'>Maximiser le Potentiel de Chaque Élève avec le Soutien Académique</h1>
                     <img src={motivation} alt="" className='w-full' />
                 </div>
                 <div>

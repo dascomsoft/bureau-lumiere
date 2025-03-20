@@ -13,7 +13,7 @@ const Blog3 = () => {
         <div className='main-blog3 bg-stone-300 pb-[4rem]'>
             <div className='container mx-auto px-4'>
                 <div className='pt-[10rem]'>
-                    <h1 className='text-3xl font-extrabold pb-[4rem]'>Les Clés pour Une Bonne Organisation Scolaire</h1>
+                    <h1 className='text-2xl font-extrabold pb-[3rem]'>Les Clés pour Une Bonne Organisation Scolaire</h1>
                     <img src={teach} alt="" className='w-full' />
                 </div>
                 <div>

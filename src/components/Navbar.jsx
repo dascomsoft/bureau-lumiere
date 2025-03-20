@@ -111,8 +111,8 @@ const Navbar = ({ user }) => {
         <div className="container mx-auto px-4 py-6">
           <header>
             <Link className="logo" to="/">
-              <h2 className="font-bold text-3xl">
-                LSV<span className="text-yellow-300">Assist</span>
+              <h2 className="font-bold text-xl">
+                LSV<span className="text-yellow-300">Etude</span>
               </h2>
             </Link>
             <div className="navleft" id={openLinks ? "open" : "close"}>

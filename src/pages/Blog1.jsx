@@ -11,8 +11,8 @@ function Blog1() {
   return (
     <div className='main-blog1 bg-stone-300 pb-[4rem]'>
       <div className='container mx-auto px-4'>
-        <div className='pt-[10rem]'>
-          <h1 className='text-3xl font-extrabold pb-[4rem]'>Comment Nos Activités Renforcent l'Épanouissement Personnel</h1>
+        <div className='pt-[8rem]'>
+          <h1 className='text-2xl font-extrabold pb-[2rem]'>Comment Nos Activités Renforcent l'Épanouissement Personnel</h1>
           <img src={bu46} alt="" className='w-full'/>
         </div>
         <div className='mt-10'>

@@ -25,7 +25,7 @@ const Footer = () => {
                         </div>
                         <div className="section-footer-detail">
                             <div className="section-footer-text">
-                                <h5 className="font-extrabold text-2xl mb-3">RESEAUX SOCIAUX</h5>
+                                <h5 className="font-extrabold text-xl mb-3">RESEAUX SOCIAUX</h5>
                                 <p>Suivez-nous sur:</p>
                                 <div className="flex items-center">
                                     <span>
@@ -64,7 +64,7 @@ const Footer = () => {
                         </div>
 
                         <div className="footer-detail">
-                            <h5 className="font-extrabold text-2xl mb-3">CONTACT & LOCALISATION</h5>
+                            <h5 className="font-extrabold text-xl mb-3">CONTACT & LOCALISATION</h5>
                             <div className="flex items-center">
                                 <p>
                                     <svg fill="stone" width="20px" height="20px" viewBox="-3 0 32 32" xmlns="http://www.w3.org/2000/svg">

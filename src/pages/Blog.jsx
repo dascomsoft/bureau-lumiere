@@ -14,20 +14,20 @@ function Blog() {
 }, []);
   return (
     <div className='blog-wrapper mb-10'>
-      <div className="hero-container  text-white text-2xl flex justify-center items-center py-[9rem]">
+      <div className="hero-container  text-white  flex justify-center items-center pt-[7rem] pb-[3rem]">
         <div className="container mx-auto px-4">
-          <h2 className='text-5xl font-extrabold py-[2rem]'>Bienvenue sur le Blog de Lumière sante & Vie <br /> Commission Étude </h2>
+          <h2 className='text-3xl font-extrabold py-[2rem]'>Bienvenue sur le Blog de Lumière sante & Vie <br /> Commission Étude </h2>
           <p className='mb-[3rem]'>Retrouvez ici des conseils, des idées et des ressources pour accompagner vos enfants vers la réussite académique et personnelle. Ce blog est un lieu d’inspiration pour tous ceux qui souhaitent contribuer à l’épanouissement scolaire et spirituel de nos jeunes.</p>
           <Link to="/contact" className=' bg-yellow-300 hover:bg-white hover:text-black text-black px-12 py-3 rounded-full'>En Savoir Plus</Link>
         </div>
       </div>
-      <div className="blog-content pt-[5rem] pb-[5rem] bg-stone-300">
+      <div className="blog-content pt-[3rem] pb-[5rem] bg-stone-300">
         <div className="container mx-auto px-4">
-          <h1 className='font-extrabold text-[3em] pt-[1rem] pb-[4rem] text-red-600'>Organiser son emploi du temps</h1>
+          <h1 className='font-extrabold text-3xl  pb-[2rem] text-red-600'>Organiser son emploi du temps</h1>
           <div className="blog-detail grid md:grid-cols-2 gap-10">
             <img src={picture} alt="emploi de temps picture" />
             <div>
-              <h1 className='font-extrabold text-[2em]'>Un Emploi du Temps Bien Structuré pour un Bon Élève à la Maison</h1>
+              <h1 className='font-extrabold text-2xl pb-10'>Un Emploi du Temps Bien Structuré pour un Bon Élève à la Maison</h1>
               <p>Pour être un élève discipliné et réussir dans toutes les dimensions de sa vie, il est essentiel de suivre un emploi du temps structuré, même à la maison. Cela implique de consacrer du temps à l’étude, à la prière, aux responsabilités familiales et à la détente. Présenter cet emploi du temps à ses parents renforce un engagement et montre respect et responsabilité, car les parents sont les guides et les maîtres de la maison.</p>
               <br />
               <p>Un emploi du temps bien structuré permet à l'élève d'organiser ses journées efficacement. En planifiant ses heures d'étude, de repos et de loisirs, il optimise son apprentissage, évite le stress et reste discipliné. Un bon équilibre entre devoirs et détente favorise la concentration, la motivation et la réussite scolaire, tout en développant l'autonomie</p>
