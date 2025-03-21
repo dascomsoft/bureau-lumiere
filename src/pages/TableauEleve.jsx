@@ -142,19 +142,14 @@ const PageEleve = () => {
           ) : (
             <p>Chargement du profil...</p>
           )}
-          <div className="mt-4 flex space-x-4">
+          <div className="mt-4">
             <button
               onClick={goToForumElevesEncadreurs}
               className="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition duration-300"
             >
               Forum Élèves-Encadreurs
             </button>
-            <button
-              onClick={goToForumElevesParents}
-              className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition duration-300"
-            >
-              Forum Élèves-Parents
-            </button>
+          
           </div>
         </div>
 

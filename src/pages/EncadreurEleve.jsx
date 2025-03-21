@@ -32,6 +32,20 @@ const PageCommune = () => {
   const [messageText, setMessageText] = useState(""); // Texte du message direct
   const [hoveredUserId, setHoveredUserId] = useState(null); // ID de l'utilisateur survolé
 
+
+ 
+ 
+
+
+  const [pageId, setPageId] = useState("");
+
+
+  // Mettre à jour le pageId lors du montage du composant
+  useEffect(() => {
+    const pageId = getPageIdFromUrl();
+    setPageId(pageId);
+  }, []);
+
   // Charger les données de l'utilisateur connecté et les questions
   useEffect(() => {
     const auth = getAuth();
@@ -40,22 +54,42 @@ const PageCommune = () => {
       setUser(currentUser);
     }
     setIsLoading(false);
-
-    // Charger les questions
+  
+    let unsubscribe;
+  
+    // Charger les questions correspondant au pageId
     const fetchQuestions = async () => {
-      const q = query(collection(db, "questions"));
-      const unsubscribe = onSnapshot(q, (snapshot) => {
+      const q = query(collection(db, "questions"), where("pageId", "==", pageId));
+      unsubscribe = onSnapshot(q, (snapshot) => {
         const fetchedQuestions = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
         setQuestions(fetchedQuestions);
       });
-      return unsubscribe;
     };
-
+  
     fetchQuestions();
-  }, []);
+  
+    // Désabonner l'écouteur Firestore lorsque le composant est démonté ou lorsque le pageId change
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
+  }, [pageId]); // Déclencher lorsque pageId change
+ 
+
+
+
+// Fonction pour extraire le pageId de l'URL
+const getPageIdFromUrl = () => {
+  const path = window.location.pathname;
+  const segments = path.split("/").filter((segment) => segment !== "");
+  const pageId = segments[segments.length - 1] || "defaultPageId";
+  console.log("Page ID extrait :", pageId); // Ajouter un log pour vérifier
+  return pageId;
+};
 
   // Fonction pour récupérer les informations de l'utilisateur connecté
   const getUserInfo = async () => {
@@ -79,8 +113,7 @@ const PageCommune = () => {
       userRole: "eleve",
     };
   };
-
-
+ 
   const addQuestion = async () => {
     if (newQuestion.trim() !== "") {
       setIsSubmitting(true);
@@ -88,22 +121,27 @@ const PageCommune = () => {
         const auth = getAuth();
         const currentUser = auth.currentUser;
   
-        // Récupérer les informations de l'utilisateur depuis Firestore
+        if (!currentUser) {
+          alert("Vous devez être connecté pour poser une question.");
+          setIsSubmitting(false);
+          return;
+        }
+  
         const userDocRef = doc(db, "utilisateurs", currentUser.uid);
         const userDoc = await getDoc(userDocRef);
   
         if (userDoc.exists()) {
           const userData = userDoc.data();
   
-          // Ajouter la question avec les informations de l'utilisateur
           await addDoc(collection(db, "questions"), {
             question: newQuestion,
             userId: currentUser.uid,
             userName: `${userData.nom} ${userData.prenom}`,
-            role: userData.role, // Utiliser le rôle de l'utilisateur depuis Firestore
-            classe: userData.classe || null, // Classe de l'élève (si applicable)
-            matiere: userData.matiere || null, // Matière de l'encadreur
+            role: userData.role,
+            classe: userData.classe || null,
+            matiere: userData.matiere || null,
             date: new Date(),
+            pageId: pageId, // Utiliser l'état pageId
           });
   
           setSuccessMessage("Votre question a été ajoutée avec succès !");
@@ -119,6 +157,16 @@ const PageCommune = () => {
       }
     }
   };
+
+
+
+
+
+
+
+
+
+
 
 // Supprimer une question
 const deleteQuestion = async (question) => {
@@ -493,3 +541,10 @@ const editQuestion = async (id) => {
 };
 
 export default PageCommune;
+
+
+
+
+
+
+

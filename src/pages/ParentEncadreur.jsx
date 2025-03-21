@@ -30,6 +30,41 @@ const ParentEncadreur = () => {
   const [messageText, setMessageText] = useState("");
   const [hoveredUserId, setHoveredUserId] = useState(null);
 
+
+
+  const [pageId, setPageId] = useState("");
+
+
+  // useEffect(() => {
+  //   const auth = getAuth();
+  //   const currentUser = auth.currentUser;
+  //   if (currentUser) {
+  //     setUser(currentUser);
+  //   }
+  //   setIsLoading(false);
+
+  //   const fetchQuestions = async () => {
+  //     const q = query(collection(db, "questions"));
+  //     const unsubscribe = onSnapshot(q, (snapshot) => {
+  //       const fetchedQuestions = snapshot.docs.map((doc) => ({
+  //         id: doc.id,
+  //         ...doc.data(),
+  //       }));
+  //       setQuestions(fetchedQuestions);
+  //     });
+  //     return unsubscribe;
+  //   };
+
+  //   fetchQuestions();
+  // }, []);
+
+
+
+
+
+
+
+
   useEffect(() => {
     const auth = getAuth();
     const currentUser = auth.currentUser;
@@ -37,21 +72,37 @@ const ParentEncadreur = () => {
       setUser(currentUser);
     }
     setIsLoading(false);
-
+  
+    let unsubscribe;
+  
+    // Charger les questions correspondant au pageId
     const fetchQuestions = async () => {
-      const q = query(collection(db, "questions"));
-      const unsubscribe = onSnapshot(q, (snapshot) => {
+      const q = query(collection(db, "questions"), where("pageId", "==", pageId));
+      unsubscribe = onSnapshot(q, (snapshot) => {
         const fetchedQuestions = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
         setQuestions(fetchedQuestions);
       });
-      return unsubscribe;
     };
-
+  
     fetchQuestions();
-  }, []);
+  
+    // Désabonner l'écouteur Firestore lorsque le composant est démonté ou lorsque le pageId change
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
+  }, [pageId]); // Déclencher lorsque pageId change
+
+
+
+
+
+
+
 
   const getUserInfo = async () => {
     const auth = getAuth();
@@ -81,11 +132,19 @@ const ParentEncadreur = () => {
       try {
         const auth = getAuth();
         const currentUser = auth.currentUser;
+  
+        if (!currentUser) {
+          alert("Vous devez être connecté pour poser une question.");
+          setIsSubmitting(false);
+          return;
+        }
+  
         const userDocRef = doc(db, "utilisateurs", currentUser.uid);
         const userDoc = await getDoc(userDocRef);
-
+  
         if (userDoc.exists()) {
           const userData = userDoc.data();
+  
           await addDoc(collection(db, "questions"), {
             question: newQuestion,
             userId: currentUser.uid,
@@ -94,8 +153,9 @@ const ParentEncadreur = () => {
             classe: userData.classe || null,
             matiere: userData.matiere || null,
             date: new Date(),
+            pageId: pageId, // Utiliser l'état pageId
           });
-
+  
           setSuccessMessage("Votre question a été ajoutée avec succès !");
           setNewQuestion("");
           setTimeout(() => setSuccessMessage(""), 3000);
@@ -342,7 +402,7 @@ const ParentEncadreur = () => {
                     </ul>
                   </div>
                 )}
-                <div className="mt-2">
+                <div className="mt-2 flex flex-row flex-wrap gap-[1rem]">
                   <button
                     className="bg-yellow-500 text-white py-1 px-3 rounded mr-2"
                     onClick={() => {
